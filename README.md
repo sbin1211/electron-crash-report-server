@@ -1,5 +1,5 @@
-**electron-crash-report-server** is a server for collecting crash reports from
-Electron applications.
+**electron-crash-report-server** is a Node.js and PostgreSQL application for
+collecting crash reports from Electron applications.
 
 ## install
 
@@ -9,6 +9,9 @@ During setup change the `AUTH_USER` and `AUTH_PASS` environment variables. Once
 the app has been deployed use those values to login.
 
 If crash reports do not appear after the first deploy restart the app.
+
+Read the **development** section for information about running in other
+environments.
 
 ## usage
 
@@ -32,20 +35,21 @@ reports to the demo server.
 
 ## development
 
-Node.js 6.10+ (and `yarn` or `npm`) and PostgreSQL 9.4+ are required.
+Node.js 6.10+, [`yarn`][yarn] and PostgreSQL 9.4+ are required.
 
 ~~~ sh
 git clone https://github.com/johnmuhl/electron-crash-report-server
 cd electron-crash-report-server
 createdb electron-crash-report-server
-mv .env-example .env
+cp .env-example .env
 yarn && yarn start-dev
+# make changes
+yarn format
 ~~~
 
 ## bugs & features
 
-Please [create an issue][issues] if you encounter bugs or
-missing features.
+Use the [issue tracker][issues] to report bugs or discuss changes and features.
 
 ## license
 
@@ -58,3 +62,4 @@ missing features.
 [demo]: https://pacific-falls-32011.herokuapp.com/
 [issues]: https://github.com/johnmuhl/electron-crash-report-server/issues
 [license]: https://github.com/johnmuhl/electron-crash-report-server/blob/master/LICENSE
+[yarn]: https://yarnpkg.com/en/docs/install
