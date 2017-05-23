@@ -2,15 +2,16 @@
 Electron applications.
 
 ## install
+
 [![Deploy][deploy-img]][deploy-url]
 
-During setup you should change the `AUTH_USER` and `AUTH_PASS` environment
-variables. Once your app has been deployed you will use those values to login.
+During setup change the `AUTH_USER` and `AUTH_PASS` environment variables. Once
+the app has been deployed use those values to login.
 
-If you are not seeing crash reports after the first deploy you may  need to
-restart the app.
+If crash reports do not appear after the first deploy restart the app.
 
 ## usage
+
 ~~~ javascript
 const {crashReporter} = require('electron')
 crashReporter.start({
@@ -19,19 +20,35 @@ crashReporter.start({
 })
 ~~~
 
-Refer to the [`crashReporter`][docs] documentation for the full details.
+Refer to the [`crashReporter`][docs] documentation for the full details. _Don't
+forget to start the `crashReporter` in the main process and each renderer that
+will create crash reports_.
 
 Check out the [example electron app][example] and [demo server][demo] for a
 working example. The login and password for the demo are `crash` and `electron`.
 
-You may need to use the example (or any other) app to add some reports to the
-demo server.
+If there are no sample reports use the [example] (or any other) app to add some
+reports to the demo server.
+
+## development
+
+Node.js 6.10+ (and `yarn` or `npm`) and PostgreSQL 9.4+ are required.
+
+~~~ sh
+git clone https://github.com/johnmuhl/electron-crash-report-server
+cd electron-crash-report-server
+createdb electron-crash-report-server
+mv .env-example .env
+yarn && yarn start-dev
+~~~
 
 ## bugs & features
+
 Please [create an issue][issues] if you encounter bugs or
 missing features.
 
 ## license
+
 [MIT license][license]
 
 [deploy-img]: https://www.herokucdn.com/deploy/button.svg
