@@ -8,7 +8,7 @@
   "bugs": "https://github.com/johnmuhl/electron-crash-report-server/issues",
   "homepage": "https://johnmuhl.github.io/electron-crash-report-server",
   "scripts": {
-    "format": "yarn prettier && yarn lint -- --fix",
+    "format": "yarn run prettier && yarn run lint --fix",
     "lint": "eslint --ignore-pattern=electron-bomb/node_modules .",
     "prettier": "prettier --write --use-tabs --no-semi --single-quote --no-bracket-spacing --trailing-comma=es5 '{*,electron-bomb/*}.js'",
     "start-dev": "node-dev server.js",
@@ -42,9 +42,6 @@
     "extends": [
       "plugin:react/recommended",
       "standard"
-    ],
-    "ignores": [
-      "vendor/bundle/**/*"
     ],
     "parserOptions": {
       "ecmaFeatures": {
