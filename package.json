@@ -10,7 +10,7 @@
   "scripts": {
     "format": "yarn run prettier && yarn run lint --fix",
     "lint": "eslint --ignore-pattern=electron-bomb/node_modules .",
-    "prettier": "prettier --write --use-tabs --no-semi --single-quote --no-bracket-spacing --trailing-comma=es5 '{*,electron-bomb/*}.js'",
+    "prettier": "prettier --write '{*,electron-bomb/*}.js'",
     "start-dev": "node-dev server.js",
     "test": "yarn lint"
   },
@@ -34,5 +34,12 @@
   },
   "eslintConfig": {
     "extends": "oz"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "useTabs": true
   }
 }
