@@ -22,7 +22,7 @@
     "handlebars": "~4.0.11",
     "hapi": "~17.0.0-rc9",
     "hapi-auth-basic": "~4.2.0",
-    "massive": "~2.6.1",
+    "massive": "~4.4.0",
     "vision": "~5.0.0-rc8"
   },
   "devDependencies": {
