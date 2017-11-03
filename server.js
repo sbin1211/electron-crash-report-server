@@ -4,146 +4,152 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config()
 }
 
-const Basic = require('hapi-auth-basic')
-const Boom = require('boom')
+// FIXME: hapi-basic-auth isn't ready for hapi 17
+// const Basic = require('hapi-auth-basic')
+// const Boom = require('boom')
 const Handlebars = require('handlebars')
 const Hapi = require('hapi')
-const Vision = require('vision')
-const db = require('./db.js')
+const massive = require('massive')
 
-const port = process.env.PORT
-const server = new Hapi.Server()
+const DELETE = 'DELETE'
+const GET = 'GET'
+const POST = 'POST'
 
-server.connection({port})
-
-server.register([Basic, Vision], err => {
-	if (err) throw err
-
-	server.auth.strategy('simple', 'basic', {
-		validateFunc: (request, user, pass, cb) => {
-			if (!user || !pass) return cb(null, false)
-			if (user !== process.env.AUTH_USER) return cb(null, false)
-			if (pass === process.env.AUTH_PASS) {
-				return cb(null, true, {})
-			} else {
-				return cb(null, false)
-			}
-		},
-	})
-
-	server.views({
-		engines: {html: Handlebars},
-		relativeTo: __dirname,
-		layout: true,
-		path: 'views',
-	})
-
-	server.route({
-		method: 'GET',
-		path: '/',
-		config: {
-			auth: 'simple',
-			handler: (request, reply) => {
-				const sql = 'SELECT * FROM reports ORDER BY created_at DESC'
-				db.run(sql, (err, reports) => {
-					if (err) throw err
-					const auth = Buffer.from(
-						`${process.env.AUTH_USER}:${process.env.AUTH_PASS}`
-					).toString('base64')
-					const opts = {
-						isHttpOnly: false,
-						isSecure: process.env.NODE_ENV === 'production',
-					}
-					reply
-						.view('index', {reports, title: 'crash reports'})
-						.state('authorization', auth, opts)
-				})
-			},
-		},
-	})
-
-	server.route({
-		method: 'GET',
-		path: '/reports/{id}',
-		config: {
-			auth: 'simple',
-			handler: (request, reply) => {
-				const id = Number(request.params.id)
-				db.reports.find(id, (err, report) => {
-					if (err) throw err
-					report.body = JSON.stringify(report.body, null, 2)
-					reply.view('report', {report, title: 'crash report'})
-				})
-			},
-		},
-	})
-
-	server.route({
-		method: 'DELETE',
-		path: '/reports/{id}',
-		config: {
-			auth: 'simple',
-			handler: (request, reply) => {
-				const id = Number(request.params.id)
-				db.dumps.destroy({report_id: id}, (err, res) => {
-					if (err) throw err
-					db.reports.destroy({id}, (err, res) => {
-						if (err) throw err
-						reply().location('/')
-					})
-				})
-			},
-		},
-	})
-
-	server.route({
-		method: 'GET',
-		path: '/reports/{id}/dump',
-		config: {
-			auth: 'simple',
-			handler: (request, reply) => {
-				const id = Number(request.params.id)
-				db.dumps.findOne({report_id: id}, (err, dump) => {
-					if (err) throw err
-					const filename = `crash-${id}.dmp`
-					reply(dump.file)
-						.header('content-disposition', `attachment; filename=${filename}`)
-						.type('application/x-dmp')
-				})
-			},
-		},
-	})
-
-	server.route({
-		method: 'POST',
-		path: '/',
-		handler: (request, reply) => {
-			if (request.payload) {
-				const payload = Object.assign({}, request.payload)
-				const file = payload.upload_file_minidump
-
-				delete payload.upload_file_minidump
-
-				db.reports.saveDoc(payload, (err, report) => {
-					if (err) throw err
-
-					db.dumps.insert({file, report_id: report.id}, (err, dump) => {
-						if (err) throw err
-
-						reply()
-					})
-				})
-			} else {
-				const error = Boom.badRequest()
-
-				reply(error)
-			}
-		},
-	})
-
-	server.start(err => {
-		if (err) throw err
-
-		console.log(`Server running at: ${server.info.uri}`)
-	})
+const server = new Hapi.Server({
+	port: process.env.PORT,
+	router: {stripTrailingSlash: true},
 })
+
+server.route({
+	method: GET,
+	path: '/',
+	config: {
+		handler: async (request, h) => {
+			const sql = 'SELECT * FROM reports ORDER BY created_at DESC'
+
+			try {
+				const reports = await server.app.db.run(sql)
+
+				return h.view('index', {reports, title: 'crash reports'})
+			} catch (error) {
+				throw error
+			}
+		},
+	},
+})
+
+server.route({
+	method: POST,
+	path: '/',
+	handler: async (request, h) => {
+		if (request.payload) {
+			const payload = Object.assign({}, request.payload)
+			const file = payload.upload_file_minidump
+
+			delete payload.upload_file_minidump
+
+			try {
+				const report = await server.app.db.reports.saveDoc(payload)
+
+				await server.app.db.dumps.insert({file, report_id: report.id})
+
+				return {statusCode: 200}
+			} catch (error) {
+				throw error
+			}
+		} else {
+			// FIXME: How to respond to errors in hapi 17?
+			// const error = Boom.badRequest()
+			// reply(error)
+		}
+	},
+})
+
+server.route({
+	method: GET,
+	path: '/reports/{id}',
+	config: {
+		handler: async (request, h) => {
+			const id = Number(request.params.id)
+
+			try {
+				const report = await server.app.db.reports.find(id)
+
+				report.body = JSON.stringify(report.body, null, 2)
+
+				return h.view('report', {report, title: 'crash report'})
+			} catch (error) {
+				throw error
+			}
+		},
+	},
+})
+
+server.route({
+	method: DELETE,
+	path: '/reports/{id}',
+	config: {
+		handler: async (request, h) => {
+			const id = Number(request.params.id)
+
+			try {
+				await server.app.db.dumps.destroy({report_id: id})
+				await server.app.db.reports.destroy({id})
+
+				return {}
+			} catch (error) {
+				throw error
+			}
+		},
+	},
+})
+
+server.route({
+	method: GET,
+	path: '/reports/{id}/dump',
+	config: {
+		handler: async (request, h) => {
+			const id = Number(request.params.id)
+
+			try {
+				// FIXME: How to respond with a file in hapi 17?
+				// const dump = await server.app.db.dumps.findOne({report_id: id})
+				// const name = `crash-${id}.dmp`
+				// reply(dump.file)
+				//   .header('content-disposition', `attachment; filename=${name}`)
+				//   .type('application/x-dmp')
+				return h.redirect(`/reports/${id}`)
+			} catch (error) {
+				throw error
+			}
+		},
+	},
+})
+
+async function main () {
+	try {
+		const db = await massive(process.env.DATABASE_URL)
+
+		db.run(require('./sql/create-reports.js'))
+		db.run(require('./sql/create-dumps.js'))
+
+		await server.register({plugin: require('vision')})
+
+		server.app.db = db
+
+		server.views({
+			engines: {html: Handlebars},
+			relativeTo: __dirname,
+			layout: true,
+			path: 'views',
+		})
+
+		await server.start()
+	} catch (error) {
+		throw error
+	}
+
+	console.log(`Server running at: ${server.info.uri}`)
+}
+
+main()
