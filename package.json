@@ -18,9 +18,9 @@
     "node": "^8.9.0"
   },
   "dependencies": {
-    "boom": "~7.0.0",
+    "boom": "~7.1.0",
     "handlebars": "~4.0.11",
-    "hapi": "~17.0.0-rc9",
+    "hapi": "~17.0.0-rc10",
     "hapi-auth-basic": "~4.2.0",
     "massive": "~4.4.0",
     "vision": "~5.0.0-rc8"
