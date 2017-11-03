@@ -1,6 +1,13 @@
 <h2>
   {{report.created_at}}
 </h2>
+<p>
+  {{#if report.open}}
+    open
+  {{else}}
+    closed
+  {{/if}}
+</p>
 <pre>{{report.body}}</pre>
 <p>
   <a href="/reports/{{report.id}}/dump">
