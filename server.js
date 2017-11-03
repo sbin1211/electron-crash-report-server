@@ -53,7 +53,7 @@ server.route({
 
 				await server.app.db.dumps.insert({file, report_id: report.id})
 
-				return {statusCode: 200}
+				return {}
 			} catch (error) {
 				throw error
 			}
@@ -112,12 +112,11 @@ server.route({
 			try {
 				const dump = await server.app.db.dumps.findOne({report_id: id})
 				const name = `crash-${id}.dmp`
-				const response = h.response(dump.file)
 
-				response.header('content-disposition', `attachment; filename=${name}`)
-				response.type('application/x-dmp')
-
-				return response
+				return h
+					.response(dump.file)
+					.header('content-disposition', `attachment; filename=${name}`)
+					.type('application/x-dmp')
 			} catch (error) {
 				throw error
 			}
@@ -129,8 +128,8 @@ async function main () {
 	try {
 		const db = await massive(process.env.DATABASE_URL)
 
-		db.run(require('./sql/create-reports.js'))
-		db.run(require('./sql/create-dumps.js'))
+		await db.run(require('./sql/create-reports.js'))
+		await db.run(require('./sql/create-dumps.js'))
 
 		await server.register({plugin: require('vision')})
 
