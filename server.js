@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // FIXME: hapi-basic-auth isn't ready for hapi 17
 // const Basic = require('hapi-auth-basic')
-// const Boom = require('boom')
+const Boom = require('boom')
 const Handlebars = require('handlebars')
 const Hapi = require('hapi')
 const massive = require('massive')
@@ -58,9 +58,7 @@ server.route({
 				throw error
 			}
 		} else {
-			// FIXME: How to respond to errors in hapi 17?
-			// const error = Boom.badRequest()
-			// reply(error)
+			return Boom.badRequest()
 		}
 	},
 })
