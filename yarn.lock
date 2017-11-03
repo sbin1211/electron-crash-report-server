@@ -310,9 +310,9 @@ boom@6.x.x:
   dependencies:
     hoek "5.x.x"
 
-boom@~7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/boom/-/boom-7.0.0.tgz#8a696b45f558bfee644a4eb41d39069595bcca91"
+boom@~7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/boom/-/boom-7.1.0.tgz#19004a4b35a9144ded1a1f815da604e014d5a1ef"
   dependencies:
     hoek "5.x.x"
 
@@ -1170,7 +1170,7 @@ hapi-auth-basic@~4.2.0:
     boom "3.x.x"
     hoek "4.x.x"
 
-hapi@~17.0.0-rc9:
+hapi@~17.0.0-rc10:
   version "17.0.0-rc9"
   resolved "https://registry.yarnpkg.com/hapi/-/hapi-17.0.0-rc9.tgz#639d26b3eb91c44ba31254fab9e66ec29575068a"
   dependencies:
