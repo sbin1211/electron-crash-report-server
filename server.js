@@ -110,13 +110,14 @@ server.route({
 			const id = Number(request.params.id)
 
 			try {
-				// FIXME: How to respond with a file in hapi 17?
-				// const dump = await server.app.db.dumps.findOne({report_id: id})
-				// const name = `crash-${id}.dmp`
-				// reply(dump.file)
-				//   .header('content-disposition', `attachment; filename=${name}`)
-				//   .type('application/x-dmp')
-				return h.redirect(`/reports/${id}`)
+				const dump = await server.app.db.dumps.findOne({report_id: id})
+				const name = `crash-${id}.dmp`
+				const response = h.response(dump.file)
+
+				response.header('content-disposition', `attachment; filename=${name}`)
+				response.type('application/x-dmp')
+
+				return response
 			} catch (error) {
 				throw error
 			}
