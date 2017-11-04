@@ -718,7 +718,7 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-"eslint-config-oz@github:johnmuhl/eslint-config-oz":
+"eslint-config-oz@github:johnmuhl/eslint-config-oz#v1.0.0":
   version "1.0.0"
   resolved "https://codeload.github.com/johnmuhl/eslint-config-oz/tar.gz/5c3603f0cb187debf9260fb675a0fe8ea548feed"
   dependencies:
