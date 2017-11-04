@@ -131,6 +131,7 @@ async function main () {
 		await db.run(require('./sql/create-reports.js'))
 		await db.run(require('./sql/create-dumps.js'))
 		await db.run(require('./sql/add-open-to-reports.js'))
+		await db.run(require('./sql/add-closed_at-to-reports.js'))
 
 		await server.register({plugin: require('vision')})
 
