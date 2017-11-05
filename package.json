@@ -9,8 +9,8 @@
   "homepage": "https://johnmuhl.github.io/electron-crash-report-server",
   "scripts": {
     "format": "yarn run prettier && yarn run lint --fix",
-    "lint": "eslint --ignore-pattern=electron-bomb/node_modules .",
-    "prettier": "prettier --write '{*,sql/*,electron-bomb/*}.js'",
+    "lint": "eslint .",
+    "prettier": "prettier --write '{*,sql/*}.js'",
     "start-dev": "nodemon server.js",
     "test": "yarn lint"
   },
