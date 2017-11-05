@@ -20,10 +20,10 @@
   "dependencies": {
     "boom": "~7.1.1",
     "handlebars": "~4.0.11",
-    "hapi": "~17.0.0",
+    "hapi": "~17.0.1",
     "hapi-auth-basic": "~4.2.0",
     "massive": "~4.4.0",
-    "vision": "~5.0.0"
+    "vision": "~5.1.0"
   },
   "devDependencies": {
     "dotenv": "~4.0.0",
