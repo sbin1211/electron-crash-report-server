@@ -1,0 +1,9 @@
+<ul>
+  <% @reports.each do |r| %>
+    <li>
+      <a href="/reports/<%= r[:id] %>">
+        <%= r[:created_at] %>
+      </a>
+    </li>
+  <% end %>
+</ul>

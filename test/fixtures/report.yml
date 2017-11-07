@@ -1,0 +1,13 @@
+---
+:body:
+  pid: '5567'
+  ver: 1.7.9
+  prod: Electron
+  extra: info from the renderer process
+  ptime: '4454'
+  _version: 1.0.0
+  platform: linux
+  lsb-release: Fedora release 26 (Twenty Six)
+  _companyName: Electron crash report server
+  _productName: electron-bomb
+  process_type: renderer
