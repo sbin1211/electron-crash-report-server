@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - bin/*
     - node_modules/**/*
+    - vendor/bundle/**/*
 
 Metrics/BlockLength:
   Enabled: false

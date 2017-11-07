@@ -2,7 +2,8 @@
 
 $VERBOSE = nil
 require 'dotenv/load'
-ENV['DATABASE_URL'] = 'postgres://localhost/electron_crash_report_server_test'
+ENV['DATABASE_URL'] = ENV['DATABASE_URL'] ||
+                      'postgres://localhost/electron_crash_report_server_test'
 ENV['RACK_ENV'] = 'test'
 
 if ENV['CI'] || ENV['COV']
