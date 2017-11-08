@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dotenv/load'
+require 'dotenv/load' unless ENV.fetch('RACK_ENV') == 'production'
 require 'pp'
 
 task default: :test

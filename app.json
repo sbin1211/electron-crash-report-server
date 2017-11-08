@@ -12,7 +12,10 @@
   ],
   "env": {
     "AUTH_USER": "crash",
-    "AUTH_PASS": "electron"
+    "AUTH_PASS": "electron",
+    "SESSION_SECRET": {
+      "generator": "secret"
+    }
   },
   "scripts": {
     "postdeploy": "bundle exec sequel -m migrate/ $DATABASE_URL"
