@@ -23,6 +23,7 @@ jobs:
       - run:
           name: database setup
           command: |
+            sleep 1
             bin/sequel -m migrate/ $DATABASE_URL
           environment:
             DATABASE_URL: "postgres://ubuntu@localhost:5432/electron_crash_report_server_test"
