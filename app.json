@@ -13,5 +13,8 @@
   "env": {
     "AUTH_USER": "crash",
     "AUTH_PASS": "electron"
+  },
+  "scripts": {
+    "postdeploy": "bundle exec sequel -m migrate/ $DATABASE_URL"
   }
 }
