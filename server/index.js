@@ -58,7 +58,7 @@ async function main () {
 			// Drop old dumps table
 			await db.run('DROP TABLE dumps')
 		} catch (error) {
-			throw new Error(error)
+			console.error(error)
 		}
 	}
 
