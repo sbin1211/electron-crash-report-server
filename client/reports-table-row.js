@@ -12,15 +12,15 @@ export default function ReportsTableRow (props) {
 	return preact.h(
 		'tr',
 		{
-			'data-index': props.index,
 			class: props.index === props.selected ? 'active' : null,
+			'data-index': props.index,
 		},
 		preact.h(
 			'td',
 			null,
 			preact.h(
 				'button',
-				{onClick: props.showDetails, class: 'details'},
+				{class: 'details', onClick: props.showDetails},
 				preact.h('img', {
 					alt: `View report ${report.id}`,
 					src: '/ic_open_in_new_black_24px.svg',
@@ -34,8 +34,8 @@ export default function ReportsTableRow (props) {
 			preact.h(
 				'button',
 				{
-					onClick: props.toggleStatus,
 					class: report.open ? 'open' : 'closed',
+					onClick: props.toggleStatus,
 				},
 				report.open ? 'Open' : 'Closed'
 			)
@@ -53,8 +53,8 @@ export default function ReportsTableRow (props) {
 			preact.h(
 				'a',
 				{
-					href: `/reports/${report.id}/dump`,
 					class: 'button icon download',
+					href: `/reports/${report.id}/dump`,
 				},
 				preact.h('img', {
 					alt: `Download minidump ${report.id}`,
@@ -68,8 +68,8 @@ export default function ReportsTableRow (props) {
 			preact.h(
 				'button',
 				{
-					onClick: props.deleteReport,
 					class: 'icon delete',
+					onClick: props.deleteReport,
 				},
 				preact.h('img', {
 					alt: `Delete report ${report.id}`,
@@ -82,11 +82,11 @@ export default function ReportsTableRow (props) {
 
 ReportsTableRow.propTypes = {
 	applications: PropTypes.array,
+	deleteReport: PropTypes.func,
 	filters: PropTypes.object,
 	index: PropTypes.number,
 	report: PropTypes.object,
 	selected: PropTypes.number,
 	showDetails: PropTypes.func,
 	toggleStatus: PropTypes.func,
-	deleteReport: PropTypes.func,
 }

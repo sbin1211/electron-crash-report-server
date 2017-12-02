@@ -8,8 +8,8 @@ export default function FilterApplication (props) {
 		preact.h(
 			'select',
 			{
-				value: props.filter,
 				onChange: props.onChange,
+				value: props.filter,
 			},
 			preact.h('option', {value: ''}, 'Show all'),
 			props.applications.map((value, key) =>

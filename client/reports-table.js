@@ -27,15 +27,15 @@ export default function ReportsTable (props) {
 			null,
 			props.reports.map((item, index) =>
 				preact.h(ReportsTableRow, {
-					key: index,
 					applications: props.applications,
+					deleteReport: props.deleteReport,
 					filters: props.filters,
 					index: index,
+					key: index,
 					report: item,
 					selected: props.selected,
 					showDetails: props.showReportDetails,
 					toggleStatus: props.toggleReportStatus,
-					deleteReport: props.deleteReport,
 				})
 			)
 		)
@@ -44,10 +44,10 @@ export default function ReportsTable (props) {
 
 ReportsTable.propTypes = {
 	applications: PropTypes.array,
+	deleteReport: PropTypes.func,
 	filters: PropTypes.object,
 	reports: PropTypes.array,
 	selected: PropTypes.number,
 	showReportDetails: PropTypes.func,
 	toggleReportStatus: PropTypes.func,
-	deleteReport: PropTypes.func,
 }

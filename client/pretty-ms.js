@@ -225,6 +225,7 @@ const irregularPlurals = {
 }
 
 // parse-ms 1.0.1
+/* eslint-disable sort-keys */
 function parseMs (ms) {
 	if (typeof ms !== 'number') {
 		throw new TypeError('Expected a number')
@@ -240,6 +241,7 @@ function parseMs (ms) {
 		milliseconds: roundTowardZero(ms) % 1000,
 	}
 }
+/* eslint-enable sort-keys */
 
 // plur 2.1.2
 function plur (str, plural, count) {

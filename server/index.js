@@ -49,8 +49,8 @@ async function main () {
 			// Migrate dumps table to reports.dump
 			dumps.forEach(async dump => {
 				await db.reports.update({
-					id: dump.report_id,
 					dump: dump.file,
+					id: dump.report_id,
 				})
 			})
 			// Add NOT NULL to dump column
@@ -79,9 +79,9 @@ async function main () {
 	server.auth.strategy('simple', 'basic', {validate})
 	server.views({
 		engines: {html: Handlebars},
-		relativeTo: __dirname,
 		layout: true,
 		path: 'views',
+		relativeTo: __dirname,
 	})
 
 	// Application state
@@ -95,7 +95,6 @@ async function main () {
 	// route: GET /
 	server.route({
 		method: 'GET',
-		path: '/',
 		options: {
 			auth: 'simple',
 			handler: (request, h) => {
@@ -106,12 +105,12 @@ async function main () {
 				return h.view('index').state('authorization', auth, options)
 			},
 		},
+		path: '/',
 	})
 
 	// route: POST /
 	server.route({
 		method: 'POST',
-		path: '/',
 		options: {
 			handler: async (request, h) => {
 				if (request.payload) {
@@ -132,12 +131,12 @@ async function main () {
 				}
 			},
 		},
+		path: '/',
 	})
 
 	// route: GET /reports
 	server.route({
 		method: 'GET',
-		path: '/reports',
 		options: {
 			auth: 'simple',
 			handler: async (request, h) => {
@@ -159,12 +158,12 @@ async function main () {
 				}
 			},
 		},
+		path: '/reports',
 	})
 
 	// route: GET /reports/:id
 	server.route({
 		method: 'GET',
-		path: '/reports/{id}',
 		options: {
 			auth: 'simple',
 			handler: async (request, h) => {
@@ -182,12 +181,12 @@ async function main () {
 				}
 			},
 		},
+		path: '/reports/{id}',
 	})
 
 	// route: PATCH /reports/:id
 	server.route({
 		method: 'PATCH',
-		path: '/reports/{id}',
 		options: {
 			auth: 'simple',
 			handler: async (request, h) => {
@@ -206,12 +205,12 @@ async function main () {
 				}
 			},
 		},
+		path: '/reports/{id}',
 	})
 
 	// route: DELETE /reports/:id
 	server.route({
 		method: 'DELETE',
-		path: '/reports/{id}',
 		options: {
 			auth: 'simple',
 			handler: async (request, h) => {
@@ -224,12 +223,12 @@ async function main () {
 				}
 			},
 		},
+		path: '/reports/{id}',
 	})
 
 	// route: GET /reports/:id/dump
 	server.route({
 		method: 'GET',
-		path: '/reports/{id}/dump',
 		options: {
 			auth: 'simple',
 			handler: async (request, h) => {
@@ -247,28 +246,29 @@ async function main () {
 					throw new Error(error)
 				}
 			},
+			path: '/reports/{id}/dump',
 		},
 	})
 
 	// Server client side javascript
 	server.route({
 		method: 'GET',
-		path: '/client/{path}',
 		options: {
 			handler: (request, h) => {
 				return h.file(resolve('client', request.params.path))
 			},
 		},
+		path: '/client/{path}',
 	})
 
 	// Serve static assets
 	server.route({
 		method: 'GET',
-		path: '/{path}',
 		options: {
 			handler: (request, h) =>
 				h.file(resolve(__dirname, 'public', request.params.path)),
 		},
+		path: '/{path}',
 	})
 
 	// Start server

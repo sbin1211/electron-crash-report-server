@@ -147,12 +147,12 @@ export default class App extends preact.Component {
 				null,
 				preact.h(ReportsTable, {
 					applications: state.applications,
+					deleteReport: this.deleteReport,
 					filters: state.filters,
 					reports: state.reports,
 					selected: state.selected,
 					showReportDetails: this.showReportDetails,
 					toggleReportStatus: this.toggleReportStatus,
-					deleteReport: this.deleteReport,
 				})
 			),
 			preact.h(
