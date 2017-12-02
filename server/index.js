@@ -8,8 +8,7 @@ const Hapi = require('hapi')
 const Inert = require('inert')
 const massive = require('massive')
 const {resolve} = require('path')
-const SQL = require('./sql/index.js')
-const validate = require('./validate.js')
+const SQL = require('./sql.js')
 const Vision = require('vision')
 
 const UNDEFINED_TABLE = '42P01'
@@ -246,8 +245,8 @@ async function main () {
 					throw new Error(error)
 				}
 			},
-			path: '/reports/{id}/dump',
 		},
+		path: '/reports/{id}/dump',
 	})
 
 	// Server client side javascript
@@ -281,6 +280,16 @@ async function main () {
 	console.log(`Server running at: ${server.info.uri}`)
 
 	return server
+}
+
+function validate (request, user, pass) {
+	if (!user || !pass) return Boom.unauthorized()
+	if (user !== process.env.AUTH_USER) return Boom.unauthorized()
+	if (pass === process.env.AUTH_PASS) {
+		return {credentials: {pass, user}, isValid: true}
+	} else {
+		return Boom.unauthorized()
+	}
 }
 
 main()
