@@ -18,8 +18,8 @@ environments.
 ```javascript
 const {crashReporter} = require('electron')
 crashReporter.start({
-	// ...other options
-	submitURL: 'https://app-name-12345.herokuapp.com/',
+    // ...other options
+    submitURL: 'https://app-name-12345.herokuapp.com/',
 })
 ```
 
@@ -66,4 +66,4 @@ Use the [issue tracker][issues] to report bugs or discuss changes and features.
 [example]: https://github.com/johnmuhl/electron-bomb
 [demo]: https://pacific-falls-32011.herokuapp.com/
 [issues]: https://github.com/johnmuhl/electron-crash-report-server/issues
-[license]: https://github.com/johnmuhl/electron-crash-report-server/blob/master/LICENSE
+[license]: https://github.com/johnmuhl/electron-crash-report-server/blob/master/LICENSE.md
