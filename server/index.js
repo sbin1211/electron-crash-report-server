@@ -249,7 +249,7 @@ async function main () {
 		path: '/reports/{id}/dump',
 	})
 
-	// Server client side javascript
+	// Serve client side javascript
 	server.route({
 		method: 'GET',
 		options: {

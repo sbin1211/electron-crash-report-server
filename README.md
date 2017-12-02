@@ -18,8 +18,8 @@ environments.
 ```javascript
 const {crashReporter} = require('electron')
 crashReporter.start({
-    // ...other options
-    submitURL: 'https://app-name-12345.herokuapp.com/',
+	// ...other options
+	submitURL: 'https://app-name-12345.herokuapp.com/',
 })
 ```
 
