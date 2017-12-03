@@ -11,7 +11,7 @@
     "dev": "nodemon -r @std/esm -w client -w server server",
     "fmt": "yarn run prettier && yarn run eslint --fix",
     "test": "yarn eslint",
-    "eslint": "eslint --ignore-pattern=server/public/* .",
+    "eslint": "eslint .",
     "prettier": "prettier --write '{*,client/*,server/*}.{js,md}'"
   },
   "engines": {
