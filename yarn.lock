@@ -54,6 +54,10 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@std/esm@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@std/esm/-/esm-0.18.0.tgz#e212b565c765f93b29ec522a493a192ce7ae2ba6"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -710,9 +714,9 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-"eslint-config-oz@github:johnmuhl/eslint-config-oz#v1.2.0":
+"eslint-config-oz@github:johnmuhl/eslint-config-oz#v1.3.0":
   version "1.0.0"
-  resolved "https://codeload.github.com/johnmuhl/eslint-config-oz/tar.gz/1da1f244a6fd17a4bc8d82b2ac2224c72e78caca"
+  resolved "https://codeload.github.com/johnmuhl/eslint-config-oz/tar.gz/6d9172904c407ea2cef513ce5e9586bdcabb8c7d"
   dependencies:
     babel-eslint "*"
     eslint-config-standard "*"
