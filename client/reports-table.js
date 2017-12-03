@@ -25,7 +25,7 @@ export default function ReportsTable (props) {
 		preact.h(
 			'tbody',
 			null,
-			props.reports.map((item, index) =>
+			props.reports.slice(0, props.limit).map((item, index) =>
 				preact.h(ReportsTableRow, {
 					applications: props.applications,
 					deleteReport: props.deleteReport,
@@ -38,7 +38,30 @@ export default function ReportsTable (props) {
 					toggleStatus: props.toggleReportStatus,
 				})
 			)
-		)
+		),
+		props.reports.length > props.limit &&
+			preact.h(
+				'tfoot',
+				null,
+				preact.h(
+					'tr',
+					null,
+					preact.h(
+						'td',
+						{
+							colspan: props.applications.length > 1 ? 9 : 8,
+						},
+						preact.h(
+							'button',
+							{
+								class: 'more',
+								onClick: props.showMoreReports,
+							},
+							'Load more'
+						)
+					)
+				)
+			)
 	)
 }
 
@@ -48,6 +71,7 @@ ReportsTable.propTypes = {
 	filters: PropTypes.object,
 	reports: PropTypes.array,
 	selected: PropTypes.number,
+	showMoreReports: PropTypes.func,
 	showReportDetails: PropTypes.func,
 	toggleReportStatus: PropTypes.func,
 }

@@ -16,12 +16,15 @@ export default class App extends preact.Component {
 				application: '',
 				closed: true,
 			},
+			limit: 50,
 			reports: [],
 			selected: null,
+			step: 50,
 		}
 
 		this.filterApplicationToggle = this.filterApplicationToggle.bind(this)
 		this.filterClosedToggle = this.filterClosedToggle.bind(this)
+		this.showMoreReports = this.showMoreReports.bind(this)
 		this.showReportDetails = this.showReportDetails.bind(this)
 		this.toggleReportStatus = this.toggleReportStatus.bind(this)
 		this.deleteReport = this.deleteReport.bind(this)
@@ -38,6 +41,7 @@ export default class App extends preact.Component {
 
 			this.setState({filters: {application, closed}})
 		}
+
 		try {
 			const headers = new Headers({authorization})
 			const response = await fetch('/reports', {headers})
@@ -90,6 +94,10 @@ export default class App extends preact.Component {
 		} catch (error) {
 			throw new Error(error)
 		}
+	}
+
+	showMoreReports (event) {
+		this.setState({limit: this.state.limit + this.state.step})
 	}
 
 	async showReportDetails (event) {
@@ -149,8 +157,10 @@ export default class App extends preact.Component {
 					applications: state.applications,
 					deleteReport: this.deleteReport,
 					filters: state.filters,
+					limit: state.limit,
 					reports: state.reports,
 					selected: state.selected,
+					showMoreReports: this.showMoreReports,
 					showReportDetails: this.showReportDetails,
 					toggleReportStatus: this.toggleReportStatus,
 				})
