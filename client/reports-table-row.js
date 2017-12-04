@@ -1,8 +1,8 @@
 /* global preact PropTypes */
 export default function ReportsTableRow (props) {
-	const application = props.filters.application
-	const showClosed = props.filters.closed
-	const report = props.report
+	const application = props.filters.get('application')
+	const showClosed = props.filters.get('closed')
+	const report = props.report[1]
 
 	// filter by selected application
 	if (application && report.body._productName !== application) return null
@@ -13,7 +13,7 @@ export default function ReportsTableRow (props) {
 		'tr',
 		{
 			class: props.index === props.selected ? 'active' : null,
-			'data-index': props.index,
+			'data-index': report.id,
 		},
 		preact.h(
 			'td',
@@ -41,7 +41,7 @@ export default function ReportsTableRow (props) {
 			)
 		),
 
-		props.applications.length > 1 &&
+		props.applications.size > 1 &&
 			preact.h('td', null, report.body._productName),
 		preact.h('td', null, report.body._version),
 		preact.h('td', null, report.body.ver),

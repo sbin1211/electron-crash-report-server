@@ -13,7 +13,7 @@ export default function ReportsTable (props) {
 				null,
 				preact.h('th', null, 'ID'),
 				preact.h('th', null, 'Status'),
-				props.applications.length > 1 && preact.h('th', null, 'Application'),
+				props.applications.size > 1 && preact.h('th', null, 'Application'),
 				preact.h('th', null, 'Version'),
 				preact.h('th', null, 'Electron'),
 				preact.h('th', null, 'Platform'),
@@ -25,19 +25,21 @@ export default function ReportsTable (props) {
 		preact.h(
 			'tbody',
 			null,
-			props.reports.slice(0, props.limit).map((item, index) =>
-				preact.h(ReportsTableRow, {
-					applications: props.applications,
-					deleteReport: props.deleteReport,
-					filters: props.filters,
-					index: index,
-					key: index,
-					report: item,
-					selected: props.selected,
-					showDetails: props.showReportDetails,
-					toggleStatus: props.toggleReportStatus,
-				})
-			)
+			Array.from(props.reports)
+				.slice(0, props.limit)
+				.map((item, index) =>
+					preact.h(ReportsTableRow, {
+						applications: props.applications,
+						deleteReport: props.deleteReport,
+						filters: props.filters,
+						index: item[0],
+						key: index,
+						report: item,
+						selected: props.selected,
+						showDetails: props.showReportDetails,
+						toggleStatus: props.toggleReportStatus,
+					})
+				)
 		),
 		props.reports.length > props.limit &&
 			preact.h(
@@ -49,7 +51,7 @@ export default function ReportsTable (props) {
 					preact.h(
 						'td',
 						{
-							colspan: props.applications.length > 1 ? 9 : 8,
+							colspan: props.applications.size > 1 ? 9 : 8,
 						},
 						preact.h(
 							'button',
