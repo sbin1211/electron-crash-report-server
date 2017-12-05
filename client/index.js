@@ -146,13 +146,9 @@ export default class App extends preact.Component {
 			preact.h(
 				'header',
 				null,
-				preact.h(FilterClosed, {
-					filter: state.filters.get('closed'),
-					onChange: this.filterClosedToggle,
-				}),
+				preact.h(FilterClosed, {...state, onChange: this.filterClosedToggle}),
 				preact.h(FilterApplication, {
-					applications: state.applications,
-					filter: state.filters.get('application'),
+					...state,
 					onChange: this.filterApplicationToggle,
 				})
 			),
@@ -160,25 +156,14 @@ export default class App extends preact.Component {
 				'main',
 				null,
 				preact.h(ReportsTable, {
-					applications: state.applications,
+					...state,
 					deleteReport: this.deleteReport,
-					filters: state.filters,
-					limit: state.limit,
-					reports: state.reports,
-					selected: state.selected,
 					showMoreReports: this.showMoreReports,
 					showReportDetails: this.showReportDetails,
 					toggleReportStatus: this.toggleReportStatus,
 				})
 			),
-			preact.h(
-				'aside',
-				null,
-				preact.h(ReportDetails, {
-					reports: this.state.reports,
-					selected: this.state.selected,
-				})
-			)
+			preact.h('aside', null, preact.h(ReportDetails, {...state}))
 		)
 	}
 }
