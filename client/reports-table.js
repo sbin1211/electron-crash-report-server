@@ -41,7 +41,7 @@ export default function ReportsTable (props) {
 					})
 				)
 		),
-		props.reports.length > props.limit &&
+		props.reports.size > props.limit &&
 			preact.h(
 				'tfoot',
 				null,
