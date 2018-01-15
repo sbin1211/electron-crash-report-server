@@ -119,9 +119,9 @@ async function main() {
           delete body.upload_file_minidump;
 
           try {
-            await server.app.db.reports.save({ body, dump });
+            const report = await server.app.db.reports.save({ body, dump });
 
-            return {};
+            return report.id;
           } catch (error) {
             throw new Error(error);
           }
