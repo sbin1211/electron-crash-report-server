@@ -49,9 +49,9 @@ yarn && yarn dev
 yarn fmt
 ```
 
-## docker
+### docker
 
-To run a dockerized instances(postgresql and node) for development use `docker-compose up`
+To start a docker container for development use run `docker-compose up`.
 
 ## bugs & features
 
