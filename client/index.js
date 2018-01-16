@@ -1,5 +1,7 @@
-/* global document fetch Headers localStorage preact */
-import prettyMs from "./pretty-ms.js";
+/* global document fetch Headers localStorage */
+import "./index.css";
+import preact from "preact";
+import prettyMs from "pretty-ms";
 
 const authorization = `Basic ${document.cookie.split("=")[1]}`;
 
