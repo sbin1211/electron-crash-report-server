@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "eslint": "4.15.0",
-    "eslint-config-oz": "github:johnmuhl/eslint-config-oz#v2.2.0",
+    "eslint-config-oz": "github:johnmuhl/eslint-config-oz#v2.2.1",
     "nodemon": "1.14.11",
     "prettier": "1.10.2"
   },
