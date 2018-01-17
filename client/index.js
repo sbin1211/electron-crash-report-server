@@ -98,7 +98,7 @@ function ReportsTableRow(props) {
     preact.h("td", null, report.body.process_type),
     preact.h(
       "td",
-      null,
+      { class: "flex" },
       preact.h(
         "a",
         {
@@ -108,6 +108,18 @@ function ReportsTableRow(props) {
         preact.h("img", {
           alt: `Download minidump ${report.id}`,
           class: "file-download large",
+          src: icons,
+        })
+      ),
+      preact.h(
+        "a",
+        {
+          class: "button icon view",
+          href: `/reports/${report.id}/stack`,
+        },
+        preact.h("img", {
+          alt: `View stack trace ${report.id}`,
+          class: "open-in-browser large",
           src: icons,
         })
       )
