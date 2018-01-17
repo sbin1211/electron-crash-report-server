@@ -8,12 +8,13 @@
   "bugs": "https://github.com/johnmuhl/electron-crash-report-server/issues",
   "homepage": "https://johnmuhl.github.io/electron-crash-report-server",
   "scripts": {
+    "build": "rollup -c",
     "dev": "nodemon -r @std/esm -w client -w server server",
     "fmt": "yarn run prettier && yarn run eslint --fix",
     "test": "yarn eslint",
     "eslint": "eslint .",
     "prettier": "prettier --write './*.{json,md}' '{client,server}/*.{css,js}'",
-    "postinstall": "rollup -c"
+    "heroku-postbuild": "yarn build"
   },
   "engines": {
     "node": "8.9.4",
