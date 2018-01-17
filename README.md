@@ -51,7 +51,9 @@ yarn fmt
 
 ### docker
 
-To start a docker container for development use run `docker-compose up`.
+To start a docker container for development use run `docker-compose up`. You may
+now direct crash reports to `http://localhost/`; the web UI is available at the
+same address.
 
 ## bugs & features
 
