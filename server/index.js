@@ -163,20 +163,29 @@ async function main() {
     method: "GET",
     options: {
       auth: "simple",
-      handler: async () => {
-        const sql = "SELECT * FROM reports ORDER BY created_at DESC";
+      handler: async request => {
+        const select = `SELECT * FROM reports ORDER BY created_at DESC`;
+        let { limit, offset } = request.headers;
+
+        limit = Number(limit) || 50;
+        offset = Number(offset) || 0;
+
+        const sql = `${select} LIMIT ${limit} OFFSET ${offset}`;
 
         try {
           const reports = await server.app.db.run(sql);
+          const response = [];
 
-          return reports.map(r => {
+          reports.forEach(r => {
             const report = Object.assign({}, r);
 
             delete report.dump;
             delete report.search;
 
-            return report;
+            response.push(report);
           });
+
+          return response;
         } catch (error) {
           throw new Error(error);
         }
@@ -300,7 +309,7 @@ async function main() {
           const stack = await walkStackAsync(path);
           await unlinkAsync(path);
 
-          return stack.toString();
+          return { text: stack.toString() };
         } catch (error) {
           throw new Error(error);
         }
