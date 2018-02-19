@@ -255,7 +255,6 @@ export default {
       const reports = new Map(response.map(report => [report.id, report]));
 
       this.set({ applications, reports });
-      /* this.set({ report: 70 }); */
     } catch (error) {
       throw new Error(error);
     }
