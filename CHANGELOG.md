@@ -2,33 +2,40 @@
 
 ## [Unreleased]
 
+## [1.1.0-rc.1] - 2018-02-16
+
 ### Added
 
 * View stack traces in web client
 * Compile web client assets
+* Dependency on eslint-plugin-html
 * Dependency on minidump
-* Dependency on preact
-* Dependency on pretty-ms
+* Dependency on npm-run-all
+* Dependency on parse-ms
+* Dependency on postcss
+* Dependency on postcss-cssnext
 * Dependency on rollup
 * Dependency on rollup-plugin-babel-minify
 * Dependency on rollup-plugin-commonjs
-* Dependency on rollup-plugin-css-only
-* Dependency on rollup-plugin-img
-* Dependency on rollup-plugin-json
 * Dependency on rollup-plugin-node-resolve
+* Dependency on rollup-plugin-svelte
+* Dependency on sb-debounce
+* Dependency on svelte
 * CHANGELOG.md
 
 ### Changed
 
+* Increase browser support
+* Improve mobile browsing experience
 * Return crash report ID after creation
 * Upgrade Heroku deployments to PostgreSQL 10.1
 * Update Node.js to 8.9.4
-* Update @std/esm to 0.19.7
+* Update @std/esm to 0.21.4
 * Update inert to 5.1.0
-* Update massive to 4.6.3
-* Update eslint to 4.16.0
+* Update massive to 4.6.4
+* Update eslint to 4.17.0
 * Update eslint-config-oz to 2.2.1
-* Update nodemon to 1.14.11
+* Update nodemon to 1.14.12
 * Update prettier to 1.10.2
 * Pin versions
 
@@ -308,7 +315,8 @@
 * Dependency on pouchdb
 * Dependency on virtual-dom
 
-[unreleased]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.1.0-rc.1...HEAD
+[1.1.0-rc.1]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0...v1.1.0-rc.1
 [1.0.0]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0-rc.8...v1.0.0
 [1.0.0-rc.8]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0-rc.7...v1.0.0-rc.8
 [1.0.0-rc.7]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0-rc.6...v1.0.0-rc.7
