@@ -1,4 +1,4 @@
-<:Window on:scroll='handleScroll()' />
+<:Window on:scroll="handleScroll()" />
 <Header :report on:hideReport="hideReport()" />
 <Filters
   :application
@@ -145,6 +145,7 @@ export default {
             offset: limit + offset,
             reports,
           });
+
           return window.scrollBy(0, window.innerHeight / 10);
         } catch (error) {
           throw new Error(error);

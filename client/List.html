@@ -3,7 +3,7 @@
   {{#if closed || report.open}}
   {{#if !application || report.body._productName === application }}
   <li
-    class={{report.open ? 'open' : 'closed'}}
+    class={{report.open ? "open" : "closed"}}
     data-id={{report.id}}
     on:click="fire('showReport', event)"
   >
