@@ -272,10 +272,11 @@ async function main() {
       auth: "simple",
       handler: async (request, h) => {
         const id = Number(request.params.id);
-        const name = `crash-${id}.dmp`;
 
         try {
           const report = await server.app.db.reports.find(id);
+          // eslint-disable-next-line no-underscore-dangle
+          const name = `${report.body._productName}-crash-${id}.dmp`;
 
           return h
             .response(report.dump)

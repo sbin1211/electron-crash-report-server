@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+* Include application in minidump filename
+
 ## [1.1.0-rc.1] - 2018-02-16
 
 ### Added
