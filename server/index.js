@@ -27,10 +27,9 @@ const server = new Hapi.Server({
 function validate(request, user, pass) {
   if (!user || !pass) return Boom.unauthorized();
   if (user !== process.env.AUTH_USER) return Boom.unauthorized();
-  if (pass === process.env.AUTH_PASS) {
-    return { credentials: { pass, user }, isValid: true };
-  }
-  return Boom.unauthorized();
+  if (pass !== process.env.AUTH_PASS) return Boom.unauthorized();
+
+  return { credentials: { pass, user }, isValid: true };
 }
 
 async function main() {
@@ -164,7 +163,7 @@ async function main() {
     options: {
       auth: "simple",
       handler: async request => {
-        const select = `SELECT * FROM reports ORDER BY created_at DESC`;
+        const select = "SELECT * FROM reports ORDER BY created_at DESC";
         let { limit, offset } = request.headers;
 
         limit = Number(limit) || 50;
@@ -174,18 +173,15 @@ async function main() {
 
         try {
           const reports = await server.app.db.run(sql);
-          const response = [];
 
-          reports.forEach(r => {
+          return reports.map(r => {
             const report = Object.assign({}, r);
 
             delete report.dump;
             delete report.search;
 
-            response.push(report);
+            return report;
           });
-
-          return response;
         } catch (error) {
           throw new Error(error);
         }
