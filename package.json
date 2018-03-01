@@ -21,11 +21,10 @@
     "heroku-postbuild": "yarn build"
   },
   "engines": {
-    "node": "8.9.4",
-    "yarn": "1.5.1"
+    "node": "8.9.4"
   },
   "dependencies": {
-    "@std/esm": "0.23.3",
+    "@std/esm": "0.23.4",
     "boom": "7.2.0",
     "dotenv": "5.0.1",
     "hapi": "17.2.1",
