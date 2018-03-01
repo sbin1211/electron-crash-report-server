@@ -2,9 +2,15 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2018-03-01
+
 ### Changed
 
 * Include application in minidump filename
+
+### Fixed
+
+* Correct `alt` attributes for timestamp images
 
 ## [1.1.0-rc.1] - 2018-02-16
 
@@ -319,7 +325,8 @@
 * Dependency on pouchdb
 * Dependency on virtual-dom
 
-[unreleased]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.1.0-rc.1...HEAD
+[unreleased]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.1.0-rc.1...v1.1.0
 [1.1.0-rc.1]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0...v1.1.0-rc.1
 [1.0.0]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0-rc.8...v1.0.0
 [1.0.0-rc.8]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0-rc.7...v1.0.0-rc.8
