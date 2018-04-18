@@ -66,16 +66,15 @@ export default {
     async deleteReport() {
       try {
         const headers = new Headers({
-          authorization: this.get("authorization"),
+          authorization: this.get().authorization,
         });
         const options = { headers, method: "DELETE" };
-        const id = this.get("report");
-        const reports = this.get("reports");
-        const response = await fetch(`/reports/${id}`, options);
+        const { report, reports } = this.get();
+        const response = await fetch(`/reports/${report}`, options);
 
         if (response.status !== 200) return console.error(response);
 
-        reports.delete(id);
+        reports.delete(report);
 
         return this.set({
           report: null,
@@ -89,16 +88,16 @@ export default {
     },
 
     async getStackTrace() {
-      const reports = this.get("reports");
-      const report = reports.get(this.get("report"));
+      const { reports } = this.get();
+      const report = reports.get(this.get().report);
 
       if (report.stackTrace) {
-        return this.set({ showStackTrace: !this.get("showStackTrace") });
+        return this.set({ showStackTrace: !this.get().showStackTrace });
       }
 
       try {
         const headers = new Headers({
-          authorization: this.get("authorization"),
+          authorization: this.get().authorization,
         });
         let response = await fetch(`/reports/${report.id}/stack`, { headers });
 
@@ -111,7 +110,7 @@ export default {
 
         return this.set({
           reports,
-          showStackTrace: !this.get("showStackTrace"),
+          showStackTrace: !this.get().showStackTrace,
         });
       } catch (error) {
         throw new Error(error);
@@ -119,17 +118,14 @@ export default {
     },
 
     handleScroll: debounce(async function scroller() {
-      const eol = this.get("eol");
-      const limit = this.get("limit");
-      const offset = this.get("offset");
-      const reports = this.get("reports");
+      const { eol, limit, offset, reports } = this.get();
       const { clientHeight, scrollHeight } = document.documentElement;
       const { pageYOffset } = window;
 
       if (!eol && scrollHeight - (pageYOffset + clientHeight) < 50) {
         try {
           const headers = new Headers({
-            authorization: this.get("authorization"),
+            authorization: this.get().authorization,
             limit,
             offset,
           });
@@ -172,12 +168,12 @@ export default {
     },
 
     toggleClosedFilter() {
-      this.set({ closed: !this.get("closed") });
+      this.set({ closed: !this.get().closed });
     },
 
     async toggleStatus() {
-      const reports = this.get("reports");
-      const report = reports.get(this.get("report"));
+      const { reports } = this.get();
+      const report = reports.get(this.get().report);
       const { id, stackTrace } = report;
 
       report.open = !report.open;
@@ -187,7 +183,7 @@ export default {
 
       try {
         const headers = new Headers({
-          authorization: this.get("authorization"),
+          authorization: this.get().authorization,
         });
         const options = { headers, method: "PATCH" };
         let response = await fetch(`/reports/${id}`, options);
@@ -208,21 +204,15 @@ export default {
   },
 
   async oncreate() {
-    this.observe(
-      "application",
-      application => {
-        localStorage.application = application;
-      },
-      { init: false }
-    );
+    this.on("state", ({ changed, current }) => {
+      if (changed.application) {
+        localStorage.application = current.application;
+      }
 
-    this.observe(
-      "closed",
-      closed => {
-        localStorage.closed = closed;
-      },
-      { init: false }
-    );
+      if (changed.closed) {
+        localStorage.closed = current.closed;
+      }
+    });
 
     // Restore filters from localStorage
     if (localStorage.application || localStorage.closed) {
@@ -237,7 +227,7 @@ export default {
 
     // Fetch reports and build list of applications
     try {
-      const headers = new Headers({ authorization: this.get("authorization") });
+      const headers = new Headers({ authorization: this.get().authorization });
       let response = await fetch("/reports", { headers });
 
       if (response.status !== 200) return console.error(response);
