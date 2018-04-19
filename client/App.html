@@ -1,25 +1,25 @@
-<:Window on:scroll="handleScroll()" />
-<Header :report on:hideReport="hideReport()" />
+<svelte:window on:scroll="handleScroll()" />
+<Header {report} on:hideReport="hideReport()" />
 <Filters
-  :application
-  :applications
-  :closed
+  {application}
+  {applications}
+  {closed}
   on:changeApplicationFilter="changeApplicationFilter(event)"
   on:toggleClosedFilter="toggleClosedFilter()"
 />
 <List
-  :application
-  :applications
-  :closed
-  :reports
+  {application}
+  {applications}
+  {closed}
+  {reports}
   on:showReport="showReport(event)"
 />
 {#if report}
 <Details
   report={reports.get(report)}
-  :reports
-  :showDetails
-  :showStackTrace
+  {reports}
+  {showDetails}
+  {showStackTrace}
   on:deleteReport="deleteReport()"
   on:getStackTrace="getStackTrace()"
   on:toggleStatus="toggleStatus()"
@@ -204,16 +204,6 @@ export default {
   },
 
   async oncreate() {
-    this.on("state", ({ changed, current }) => {
-      if (changed.application) {
-        localStorage.application = current.application;
-      }
-
-      if (changed.closed) {
-        localStorage.closed = current.closed;
-      }
-    });
-
     // Restore filters from localStorage
     if (localStorage.application || localStorage.closed) {
       const { application } = localStorage;
@@ -255,6 +245,18 @@ export default {
     img.src = devicePixelRatio > 1 ? "/icons-2x.png" : "/icons-1x.png";
 
     return this;
+  },
+
+  onupdate({ changed, current, previous }) {
+    if (!previous) return null;
+
+    if (changed.application) {
+      localStorage.application = current.application;
+    }
+
+    if (changed.closed) {
+      localStorage.closed = current.closed;
+    }
   },
 };
 </script>
