@@ -69,6 +69,11 @@
   "eslintIgnore": [
     "bundle.*"
   ],
+  "greenkeeper": {
+    "ignore": [
+      "minidump"
+    ]
+  },
   "prettier": {
     "proseWrap": "always",
     "trailingComma": "es5"
