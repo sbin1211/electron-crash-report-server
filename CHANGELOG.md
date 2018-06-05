@@ -2,21 +2,12 @@
 
 ## [Unreleased]
 
-### Changed
+## [1.2.0] - 2018-06-04
 
-* Update @std/esm to 0.23.3
-* Update boom to 7.2.0
-* Update dotenv to 5.0.1
-* Update eslint to 4.18.1
-* Update hapi to 17.2.1
-* Update massive to 4.7.0
-* Update minidump to 0.13.0
-* Update nodemon to 1.17.1
-* Update postcss to 6.0.19
-* Update prettier to 1.11.1
-* Update rollup to 0.56.3
-* Update rollup-plugin-node-resolve to 3.0.3
-* Update yarn to 1.5.1
+### Fixed
+
+- Update application selector on scroll
+- Maintain sort order in application selector
 
 ## [1.1.0] - 2018-03-01
 
@@ -341,7 +332,8 @@
 * Dependency on pouchdb
 * Dependency on virtual-dom
 
-[unreleased]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.1.0-rc.1...v1.1.0
 [1.1.0-rc.1]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0...v1.1.0-rc.1
 [1.0.0]: https://github.com/johnmuhl/electron-crash-report-server/compare/v1.0.0-rc.8...v1.0.0

@@ -1,6 +1,6 @@
 {
   "name": "electron-crash-report-server",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Crash report server for Electron applications",
   "repository": "github:johnmuhl/electron-crash-report-server",
   "author": "John Muhl <git@johnmuhl.com>",
