@@ -1,12 +1,8 @@
 // eslint-disable-next-line import/prefer-default-export
 export async function get(req, res) {
-  const select = "SELECT * FROM reports ORDER BY created_at DESC";
-  let { limit, offset } = req.query;
-
-  limit = Number(limit) || 50;
-  offset = Number(offset) || 0;
-
-  const sql = `${select} LIMIT ${limit} OFFSET ${offset}`;
+  // const col = "body, closed_at, created_at, id, open";
+  const col = "body, created_at, id, open";
+  const sql = `SELECT ${col} FROM reports ORDER BY created_at DESC`;
 
   try {
     const reports = await req.app.get("db").query(sql);
@@ -19,7 +15,8 @@ export async function get(req, res) {
     /* eslint-enable no-param-reassign */
 
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(reports, null, "\t"));
+
+    res.end(JSON.stringify(reports));
   } catch (error) {
     console.error(error);
     throw error;

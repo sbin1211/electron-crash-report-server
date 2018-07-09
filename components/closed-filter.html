@@ -1,0 +1,16 @@
+<label>
+  <input
+    bind:checked=$closed
+    checked="false"
+    on:click="$set({closed: !$closed})"
+    type="checkbox"
+  >
+  Show closed
+</label>
+
+<style>
+label {
+  width: 25%;
+  margin-right: 2rem;
+}
+</style>

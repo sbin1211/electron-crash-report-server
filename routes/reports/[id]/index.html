@@ -1,10 +1,10 @@
-<article>
-  <div ref:created_on class="timestamp">
+<div ref:report>
+  <div data-timestamp>
     <Picture alt="created on" position="-3px 0" />
     <span>{new Date(report.created_at)}</span>
   </div>
 
-  <div ref:closed_on class="timestamp">
+  <div data-timestamp>
     <Picture alt="closed on" position="-3px -18px" />
     <span>
       {#if report.open}
@@ -15,18 +15,12 @@
     </span>
   </div>
 
-  <div ref:open_for class="timestamp">
+  <div data-timestamp>
     <Picture alt="open for" position="-3px -36px" />
     <span>{lifetime(report)}</span>
   </div>
 
-  <div>
-    <button data-is-open={report.open} on:click=toggleStatus() type="button">
-      {report.open ? "Close" : "Reopen" } report
-    </button>
-  </div>
-
-  <div>
+  <div ref:views>
     <button
       on:click="set({ detailsVisible: !detailsVisible })"
       data-is-visible={detailsVisible}
@@ -34,12 +28,6 @@
       View report details
     </button>
 
-    {#if detailsVisible}
-    <pre>{JSON.stringify(report.body, null, 2)}</pre>
-    {/if}
-  </div>
-
-  <div>
     <button
       on:click=getStackTrace()
       data-is-visible={stackTraceVisible}
@@ -47,23 +35,29 @@
       View stack trace
     </button>
 
-    {#if stackTraceVisible}
-    <pre>{report.stackTrace}</pre>
-    {/if}
-  </div>
-
-  <div>
-    <a href="/reports/{report.id}/dump">
+    <a href="/reports/{report.id}/dump" role="button">
       Download minidump
     </a>
   </div>
 
-  <div>
-    <button ref:delete_button on:click=deleteReport()>
+  <div ref:actions>
+    <button data-is-open={report.open} on:click=toggleStatus() type="button">
+      {report.open ? "Close" : "Open" } report
+    </button>
+
+    <button ref:delete on:click=deleteReport()>
       Delete report
     </button>
   </div>
-</article>
+
+  {#if detailsVisible}
+  <pre>{JSON.stringify(report.body, null, 2)}</pre>
+  {/if}
+
+  {#if stackTraceVisible}
+  <pre>{report.stackTrace}</pre>
+  {/if}
+</div>
 
 <script type="module">
 /* global fetch */
@@ -72,7 +66,7 @@ import prettyMs from "pretty-ms";
 
 export default {
   components: {
-    Picture: "../../../components/Picture.html",
+    Picture: "../../../components/picture.html",
   },
 
   data: () => ({
@@ -85,6 +79,7 @@ export default {
       const closed = new Date(report.closed_at || Date.now());
       const created = new Date(report.created_at);
       const options = { secDecimalDigits: 0 };
+
       return prettyMs(closed - created, options);
     },
   },
@@ -121,6 +116,7 @@ export default {
         const data = await response.json();
 
         report.stackTrace = data.stackTrace;
+
         return this.set({
           report,
           stackTraceVisible: !this.get().stackTraceVisible,
@@ -164,6 +160,9 @@ export default {
     try {
       const response = await this.fetch(`reports/${params.id}.json`);
       const report = await response.json();
+
+      this.store.set({ report });
+
       return { report };
     } catch (error) {
       console.error(error);
@@ -174,64 +173,75 @@ export default {
 </script>
 
 <style>
-div {
-  margin: 1rem 0;
+ref:report {
+  padding: 2rem;
+  border-top: 1px solid gainsboro;
 }
 
-a,
-button {
+ref:actions,
+ref:views {
+  display: flex;
+  margin: 0.25rem 0;
+}
+
+ref:views {
+  margin-top: 2rem;
+}
+
+button,
+[role="button"] {
   display: block;
-  padding: 1rem 0.5rem;
-  /* margin: 1rem 0; */
+  padding: 1rem;
   width: 100%;
   font-family: sans-serif;
   font-size: 1.125em;
   text-align: left;
   text-decoration: none;
-  line-height: 1.2;
-  color: #212121;
-  background-color: #eee;
+  color: black;
+  background-color: gainsboro;
   border: 0;
+  border-radius: 0.125rem;
+  cursor: default;
+}
+
+button:not(:last-child),
+[role="button"]:not(:last-child) {
+  margin-right: 0.25rem;
 }
 
 pre {
-  padding: 0.25rem;
-  width: 100%;
+  padding: 1rem;
+  margin: 2rem 0;
   overflow: auto;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-top: 0;
+  font-size: 1.2307692307692308rem; /* 16px */
+  background-color: whitesmoke;
+  border: 1px solid lightgray;
+  border-radius: 0.125rem;
 }
 
-.timestamp {
+[data-timestamp] {
   display: flex;
   align-items: center;
-  padding: 0.125rem 1rem;
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
   font-size: 0.875em;
-  justify-content: flex-start;
 }
 
-.timestamp:first-child {
-  margin-top: 1rem;
-}
-
-.timestamp span {
-  margin-left: 0.25rem;
-}
-
-ref:delete_button {
-  color: white;
-  background-color: #d50000;
+[data-timestamp] span {
+  margin-left: 0.5rem;
 }
 
 [data-is-open="true"] {
   color: black;
-  background-color: #00c853;
+  background-color: limegreen;
 }
 
 [data-is-visible="true"] {
   color: white;
-  background-color: #2962ff;
+  background-color: royalblue;
+}
+
+ref:delete {
+  color: white;
+  background-color: crimson;
 }
 </style>
