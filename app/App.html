@@ -1,0 +1,44 @@
+<Header path={props.path} applications={props.applications} />
+
+<main>
+  <svelte:component this={Page} {...props}/>
+</main>
+
+<script type="module">
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Store } from "svelte/store.js";
+
+const store = new Store({
+  application: "",
+  reports: [],
+});
+
+store.compute("applications", ["reports"], reports =>
+  reports
+    // eslint-disable-next-line no-underscore-dangle
+    .map(report => report.body._productName)
+    .filter(item => item != null)
+    .filter(item => item.toString().trim().length)
+    .filter(item => !!item)
+    .sort()
+    .reduce((a, b) => {
+      if (a.length === 0 || a[a.length - 1] !== b) a.push(b);
+      return a;
+    }, [])
+);
+
+export default {
+  components: {
+    Header: "../components/Header.html",
+  },
+
+  store: () => store,
+};
+</script>
+
+<style>
+main {
+  margin: 0 auto;
+  width: 40rem;
+}
+</style>

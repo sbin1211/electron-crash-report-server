@@ -1,0 +1,69 @@
+<header>
+  <div>
+    <h1>
+      <a href="/">crash reports</a>
+    </h1>
+
+    {#if path === "/"}
+    <div>
+      <input
+        bind:checked=$closed
+        checked
+        id="show-closed"
+        type="checkbox"
+      >
+      <label for="show-closed">Show closed?</label>
+    </div>
+
+    <div>
+      <select on:change="$set({ application: event.target.value })" bind:value=$application>
+        <option value="">Show all</option>
+        {#each $applications as app}
+        <option value={app}>{app}</option>
+        {/each}
+      </select>
+    </div>
+    {/if}
+  </div>
+</header>
+
+<script type="module">
+export default {
+  methods: {
+    filter(event) {
+      console.log(event.target);
+    },
+  },
+
+  oncreate() {},
+};
+</script>
+
+<style>
+header {
+  background-color: black;
+}
+
+header > div {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 40rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+a {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  color: white;
+}
+
+label {
+  color: white;
+}
+</style>

@@ -1,0 +1,237 @@
+<article>
+  <div ref:created_on class="timestamp">
+    <Picture alt="created on" position="-3px 0" />
+    <span>{new Date(report.created_at)}</span>
+  </div>
+
+  <div ref:closed_on class="timestamp">
+    <Picture alt="closed on" position="-3px -18px" />
+    <span>
+      {#if report.open}
+      —
+      {:else}
+      {new Date(report.closed_at)}
+      {/if}
+    </span>
+  </div>
+
+  <div ref:open_for class="timestamp">
+    <Picture alt="open for" position="-3px -36px" />
+    <span>{lifetime(report)}</span>
+  </div>
+
+  <div>
+    <button data-is-open={report.open} on:click=toggleStatus() type="button">
+      {report.open ? "Close" : "Reopen" } report
+    </button>
+  </div>
+
+  <div>
+    <button
+      on:click="set({ detailsVisible: !detailsVisible })"
+      data-is-visible={detailsVisible}
+    >
+      View report details
+    </button>
+
+    {#if detailsVisible}
+    <pre>{JSON.stringify(report.body, null, 2)}</pre>
+    {/if}
+  </div>
+
+  <div>
+    <button
+      on:click=getStackTrace()
+      data-is-visible={stackTraceVisible}
+    >
+      View stack trace
+    </button>
+
+    {#if stackTraceVisible}
+    <pre>{report.stackTrace}</pre>
+    {/if}
+  </div>
+
+  <div>
+    <a href="/reports/{report.id}/dump">
+      Download minidump
+    </a>
+  </div>
+
+  <div>
+    <button ref:delete_button on:click=deleteReport()>
+      Delete report
+    </button>
+  </div>
+</article>
+
+<script type="module">
+/* global fetch */
+import { goto } from "sapper/runtime.js";
+import prettyMs from "pretty-ms";
+
+export default {
+  components: {
+    Picture: "../../../components/Picture.html",
+  },
+
+  data: () => ({
+    detailsVisible: false,
+    stackTraceVisible: false,
+  }),
+
+  helpers: {
+    lifetime(report) {
+      const closed = new Date(report.closed_at || Date.now());
+      const created = new Date(report.created_at);
+      const options = { secDecimalDigits: 0 };
+      return prettyMs(closed - created, options);
+    },
+  },
+
+  methods: {
+    async deleteReport() {
+      try {
+        const { report } = this.get();
+        const response = await fetch(`/reports/${report.id}`, {
+          method: "DELETE",
+        });
+
+        if (response.status !== 200) return console.error(response);
+
+        return goto("/");
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+
+    async getStackTrace() {
+      const { report } = this.get();
+
+      if (report.stackTrace) {
+        return this.set({ stackTraceVisible: !this.get().stackTraceVisible });
+      }
+
+      try {
+        const response = await fetch(`/reports/${report.id}/stack`);
+
+        if (response.status !== 200) return console.error(response);
+
+        const data = await response.json();
+
+        report.stackTrace = data.stackTrace;
+        return this.set({
+          report,
+          stackTraceVisible: !this.get().stackTraceVisible,
+        });
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+
+    async toggleStatus() {
+      const { report } = this.get();
+      const { stackTrace } = report;
+
+      if (report.open) {
+        report.open = false;
+        report.closed_at = new Date();
+      } else {
+        report.open = true;
+        report.closed_at = null;
+      }
+
+      try {
+        const response = await fetch(`/reports/${report.id}`, {
+          body: JSON.stringify(report),
+          headers: { "content-type": "application/json" },
+          method: "PATCH",
+        });
+        const data = await response.json();
+
+        if (stackTrace) data.stackTrace = stackTrace;
+        this.set({ report: data });
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+  },
+
+  async preload({ params }) {
+    try {
+      const response = await this.fetch(`reports/${params.id}.json`);
+      const report = await response.json();
+      return { report };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+};
+</script>
+
+<style>
+div {
+  margin: 1rem 0;
+}
+
+a,
+button {
+  display: block;
+  padding: 1rem 0.5rem;
+  /* margin: 1rem 0; */
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 1.125em;
+  text-align: left;
+  text-decoration: none;
+  line-height: 1.2;
+  color: #212121;
+  background-color: #eee;
+  border: 0;
+}
+
+pre {
+  padding: 0.25rem;
+  width: 100%;
+  overflow: auto;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-top: 0;
+}
+
+.timestamp {
+  display: flex;
+  align-items: center;
+  padding: 0.125rem 1rem;
+  margin: 0.25rem 0;
+  font-size: 0.875em;
+  justify-content: flex-start;
+}
+
+.timestamp:first-child {
+  margin-top: 1rem;
+}
+
+.timestamp span {
+  margin-left: 0.25rem;
+}
+
+ref:delete_button {
+  color: white;
+  background-color: #d50000;
+}
+
+[data-is-open="true"] {
+  color: black;
+  background-color: #00c853;
+}
+
+[data-is-visible="true"] {
+  color: white;
+  background-color: #2962ff;
+}
+</style>
