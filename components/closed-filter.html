@@ -8,6 +8,21 @@
   Show closed
 </label>
 
+<script type="module">
+/* global localStorage */
+export default {
+  oncreate() {
+    this.store.set({ closed: JSON.parse(localStorage.closed) });
+
+    this.store.on("state", ({ changed, current }) => {
+      if (changed.closed) {
+        localStorage.closed = current.closed;
+      }
+    });
+  },
+};
+</script>
+
 <style>
 label {
   width: 25%;

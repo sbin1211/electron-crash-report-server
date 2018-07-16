@@ -10,6 +10,21 @@
   </select>
 </label>
 
+<script type="module">
+/* global localStorage */
+export default {
+  oncreate() {
+    this.store.set({ application: localStorage.application });
+
+    this.store.on("state", ({ changed, current }) => {
+      if (changed.application) {
+        localStorage.application = current.application;
+      }
+    });
+  },
+};
+</script>
+
 <style>
 label {
   width: 25%;
