@@ -146,7 +146,7 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-accepts@~1.3.4, accepts@~1.3.5:
+accepts@~1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.5.tgz#eb777df6011723a3b14e8a72c0805c8e86746bd2"
   dependencies:
@@ -662,22 +662,22 @@ component-emitter@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
 
-compressible@~2.0.13:
+compressible@~2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.14.tgz#326c5f507fbb055f54116782b969a81b67a29da7"
   dependencies:
     mime-db ">= 1.34.0 < 2"
 
-compression@1.7.2:
-  version "1.7.2"
-  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+compression@1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/compression/-/compression-1.7.3.tgz#27e0e176aaf260f7f2c2813c3e440adb9f1993db"
   dependencies:
-    accepts "~1.3.4"
+    accepts "~1.3.5"
     bytes "3.0.0"
-    compressible "~2.0.13"
+    compressible "~2.0.14"
     debug "2.6.9"
     on-headers "~1.0.1"
-    safe-buffer "5.1.1"
+    safe-buffer "5.1.2"
     vary "~1.1.2"
 
 concat-map@0.0.1:
@@ -1079,7 +1079,7 @@ eslint-config-airbnb-base@*:
     object.assign "^4.1.0"
     object.entries "^1.0.4"
 
-"eslint-config-oz@github:johnmuhl/eslint-config-oz":
+"eslint-config-oz@github:johnmuhl/eslint-config-oz#4.0.1":
   version "4.0.1"
   resolved "https://codeload.github.com/johnmuhl/eslint-config-oz/tar.gz/1469267d4642ef346c79f2986f82644489f9ba90"
   dependencies:
@@ -1190,9 +1190,9 @@ eslint@5.1.0:
     table "^4.0.3"
     text-table "^0.2.0"
 
-esm@3.0.66:
-  version "3.0.66"
-  resolved "https://registry.yarnpkg.com/esm/-/esm-3.0.66.tgz#be1c12acbab8a14692f715b8bb363fbf438caf09"
+esm@3.0.71:
+  version "3.0.71"
+  resolved "https://registry.yarnpkg.com/esm/-/esm-3.0.71.tgz#3824987412d7d8fd7782d2381e990a621519a993"
 
 espree@^4.0.0:
   version "4.0.0"
@@ -2084,9 +2084,9 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-massive@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/massive/-/massive-5.1.0.tgz#5a267ddd9e85dc81bed9eb69fd74dcd71b79a2f4"
+massive@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/massive/-/massive-5.1.1.tgz#fba558c237296a29303950f59693cb97251c17fe"
   dependencies:
     commander "2.16.0"
     glob "7.1.2"
@@ -3130,9 +3130,9 @@ sander@^0.6.0:
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
-sapper@0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/sapper/-/sapper-0.14.1.tgz#2a744a0988200118859b018aeb85a5cff7428e79"
+sapper@0.14.2:
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/sapper/-/sapper-0.14.2.tgz#be82be7e67cc7981478df547c372a3f0ecceb313"
   dependencies:
     ansi-colors "^2.0.1"
     cheerio "^1.0.0-rc.2"
@@ -3530,9 +3530,9 @@ svelte-loader@2.9.1:
     loader-utils "^1.1.0"
     svelte-dev-helper "^1.1.7"
 
-svelte@2.9.3:
-  version "2.9.3"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.9.3.tgz#09ac1740c26b4d3394ec623bd9d17cac5713ab6f"
+svelte@2.9.4:
+  version "2.9.4"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.9.4.tgz#35d43c2b24b7a3f5ebd883e6c9458fb58205b2db"
 
 symbol-observable@1.0.1:
   version "1.0.1"
