@@ -26,9 +26,11 @@
   },
   "dependencies": {
     "compression": "1.7.3",
+    "cookie-parser": "1.4.3",
     "dotenv": "6.0.0",
     "esm": "3.0.71",
     "express": "4.16.3",
+    "express-basic-auth": "1.1.5",
     "massive": "5.1.1",
     "minidump": "0.13.0",
     "multiparty": "4.1.4",

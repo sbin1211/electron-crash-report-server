@@ -50,6 +50,7 @@
 
 <script type="module">
 /* global window */
+import headers from "./_headers.js";
 import prettyMs from "pretty-ms";
 
 export default {
@@ -70,7 +71,7 @@ export default {
     }
 
     try {
-      const response = await this.fetch("reports.json");
+      const response = await this.fetch("reports.json", { headers });
       const reports = await response.json();
 
       return this.store.set({ reports });
