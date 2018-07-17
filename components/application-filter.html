@@ -14,7 +14,9 @@
 /* global localStorage */
 export default {
   oncreate() {
-    this.store.set({ application: localStorage.application });
+    if (localStorage.application) {
+      this.store.set({ application: localStorage.application });
+    }
 
     this.store.on("state", ({ changed, current }) => {
       if (changed.application) {

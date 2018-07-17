@@ -12,7 +12,9 @@
 /* global localStorage */
 export default {
   oncreate() {
-    this.store.set({ closed: JSON.parse(localStorage.closed) });
+    if (localStorage.closed) {
+      this.store.set({ closed: JSON.parse(localStorage.closed) });
+    }
 
     this.store.on("state", ({ changed, current }) => {
       if (changed.closed) {
