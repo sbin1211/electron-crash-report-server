@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
 export async function get(req, res) {
-  // const col = "body, closed_at, created_at, id, open";
   const col = "body, created_at, id, open";
   const sql = `SELECT ${col} FROM reports ORDER BY created_at DESC`;
 

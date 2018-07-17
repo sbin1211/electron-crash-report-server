@@ -1,7 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
+// eslint-disable-next-line import/no-extraneous-dependencies
 const webpack = require("webpack");
 const config = require("sapper/webpack/config.js");
-/* eslint-enable import/no-extraneous-dependencies */
 
 const mode = process.env.NODE_ENV;
 const isDev = mode === "development";
