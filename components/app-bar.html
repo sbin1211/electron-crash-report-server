@@ -7,7 +7,7 @@
     </h1>
 
     <div>
-      {#if path === "/"}
+      {#if path === undefined}
       <ClosedFilter />
       {#if $applications.length > 1}
       <ApplicationFilter />

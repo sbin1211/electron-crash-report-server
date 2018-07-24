@@ -35,7 +35,7 @@
     "minidump": "0.13.0",
     "multiparty": "4.1.4",
     "pretty-ms": "3.2.0",
-    "sapper": "0.14.2",
+    "sapper": "0.15.2",
     "sirv": "0.1.4",
     "svelte": "2.9.6"
   },

@@ -1,11 +1,10 @@
 import "dotenv/config";
-import App from "./app.html";
 import basicAuth from "express-basic-auth";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import express from "express";
+import { manifest } from "./manifest/server.js";
 import massive from "massive";
-import { routes } from "./manifest/server.js";
 import sapper from "sapper";
 import sirv from "sirv";
 import { Store } from "svelte/store.js";
@@ -57,7 +56,7 @@ massive(process.env.DATABASE_URL)
     server.use(express.json());
     server.use(compression({ threshold: 0 }));
     server.use(sirv("assets"));
-    server.use(sapper({ App, routes, store }));
+    server.use(sapper({ manifest, store }));
     server.listen(process.env.PORT);
   })
   .catch(error => {
