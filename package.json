@@ -37,7 +37,7 @@
     "pretty-ms": "3.2.0",
     "sapper": "0.15.2",
     "sirv": "0.1.4",
-    "svelte": "2.9.6"
+    "svelte": "2.9.7"
   },
   "devDependencies": {
     "eslint": "5.2.0",
