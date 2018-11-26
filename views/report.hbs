@@ -1,0 +1,12 @@
+<script type="module">
+	import Report from "/components/report.js";
+
+	const component = new Report({
+		props: {
+			report: {{{ report }}},
+		},
+		target: document.body,
+	});
+
+	window.component = component;
+</script>

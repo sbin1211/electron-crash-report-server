@@ -1,5 +1,9 @@
-import closureCompiler from '@ampproject/rollup-plugin-closure-compiler'
-import filesize from 'rollup-plugin-filesize'
+/* eslint-disable no-process-env */
+
+import closureCompiler from "@ampproject/rollup-plugin-closure-compiler";
+import commonjs from "rollup-plugin-commonjs";
+import filesize from "rollup-plugin-filesize";
+import nodeResolve from "rollup-plugin-node-resolve";
 import { readdirSync } from "fs";
 import { resolve } from "path";
 import svelte from "rollup-plugin-svelte";
@@ -9,7 +13,8 @@ const input = readdirSync(directory).map(x => resolve(directory, x));
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	experimentalCodeSplitting: true, // Rollup v1 default.
+	// Rollup v1 default.
+	experimentalCodeSplitting: true,
 	input,
 	output: {
 		dir: "out",
@@ -17,6 +22,8 @@ export default {
 		sourcemap: true,
 	},
 	plugins: [
+		commonjs(),
+		nodeResolve(),
 		svelte({
 			dev: !production,
 			// Svelte v3 defaults.

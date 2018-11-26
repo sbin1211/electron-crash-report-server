@@ -9,17 +9,45 @@
 	"bugs": "https://github.com/johnmuhl/electron-crash-report-server/issues",
 	"scripts": {
 		"build": "rollup -c",
+		"start": "node -r esm server.js",
+		"dev": "run-p --race *:dev",
+		"build:dev": "rollup -cw",
+		"start:dev": "nodemon -r esm -i out -i views server.js",
 		"heroku-postbuild": "yarn run build"
 	},
 	"engines": {
 		"node": "10.x",
 		"yarn": "1.x"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"boom": "7.x",
+		"dotenv": "6.x",
+		"esm": "3.x",
+		"handlebars": "4.x",
+		"hapi": "17.x",
+		"hapi-auth-basic": "5.x",
+		"inert": "5.x",
+		"massive": "5.x",
+		"minidump": "0.x",
+		"pg.js": "4.x",
+		"vision": "5.x"
+	},
 	"devDependencies": {
 		"@ampproject/rollup-plugin-closure-compiler": "0.x",
+		"@tivac/eslint-plugin-svelte": "1.x",
+		"eslint": "5.x",
+		"eslint-import-resolver-node": "0.x",
+		"eslint-plugin-html": "5.x",
+		"eslint-plugin-import": "2.x",
+		"eslint-plugin-unicorn": "6.x",
+		"nodemon": "1.x",
+		"npm-run-all": "4.x",
+		"prettier": "1.x",
+		"pretty-ms": "4.x",
 		"rollup": "0.x",
+		"rollup-plugin-commonjs": "9.x",
 		"rollup-plugin-filesize": "5.x",
+		"rollup-plugin-node-resolve": "3.x",
 		"rollup-plugin-svelte": "file:../sveltejs/rollup-plugin-svelte",
 		"svelte": "file:../sveltejs/svelte"
 	},
