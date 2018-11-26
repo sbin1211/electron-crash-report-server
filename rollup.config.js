@@ -1,36 +1,29 @@
-import cjs from "rollup-plugin-commonjs";
-import cssnext from "postcss-cssnext";
-import minify from "rollup-plugin-babel-minify";
-import postcss from "postcss";
-import resolve from "rollup-plugin-node-resolve";
+import closureCompiler from '@ampproject/rollup-plugin-closure-compiler'
+import filesize from 'rollup-plugin-filesize'
+import { readdirSync } from "fs";
+import { resolve } from "path";
 import svelte from "rollup-plugin-svelte";
 
-const production = process.env.NODE_ENV === "production";
+const directory = resolve("components");
+const input = readdirSync(directory).map(x => resolve(directory, x));
+const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: "client/index.js",
-  output: {
-    file: "server/public/bundle.js",
-    format: "iife",
-    name: "ECRS",
-    sourcemap: true,
-  },
-  plugins: [
-    cjs(),
-    resolve(),
-    svelte({
-      css: css => css.write("server/public/bundle.css"),
-      dev: !production,
-      preprocess: {
-        style: async ({ content }) => {
-          const { css } = await postcss([cssnext]).process(content, {
-            from: undefined,
-          });
-
-          return { code: css };
-        },
-      },
-    }),
-    production && minify(),
-  ],
+	experimentalCodeSplitting: true, // Rollup v1 default.
+	input,
+	output: {
+		dir: "out",
+		format: "esm",
+		sourcemap: true,
+	},
+	plugins: [
+		svelte({
+			dev: !production,
+			// Svelte v3 defaults.
+			nestedTransitions: true,
+			skipIntroByDefault: true,
+		}),
+		production && closureCompiler(),
+		production && filesize(),
+	],
 };

@@ -7,12 +7,21 @@
 	"homepage": "https://johnmuhl.github.io/electron-crash-report-server",
 	"repository": "github:johnmuhl/electron-crash-report-server",
 	"bugs": "https://github.com/johnmuhl/electron-crash-report-server/issues",
-	"scripts": {},
+	"scripts": {
+		"build": "rollup -c",
+		"heroku-postbuild": "npm run build"
+	},
 	"engines": {
 		"node": "10.x",
-		"yarn": "1.x"
+		"npm": "6.x"
 	},
 	"dependencies": {},
-	"devDependencies": {},
+	"devDependencies": {
+		"@ampproject/rollup-plugin-closure-compiler": "0.x",
+		"rollup": "0.x",
+		"rollup-plugin-filesize": "5.x",
+		"rollup-plugin-svelte": "file:../sveltejs/rollup-plugin-svelte",
+		"svelte": "file:../sveltejs/svelte"
+	},
 	"private": true
 }
