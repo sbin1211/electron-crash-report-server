@@ -357,4 +357,13 @@ module.exports = {
 			},
 		],
 	},
+	overrides: [
+		{
+			files: ["*.svelte"],
+			rules: {
+				"no-unused-vars": "off",
+				"prefer-const": "off",
+			},
+		},
+	],
 };
