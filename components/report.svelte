@@ -123,19 +123,15 @@ const deleteReport = async () => {
 		</div>
 
 		<div id="actions">
-			<button 
+			<button
 				class:closed="{!report.open}"
-				on:click={toggleReportStatus}
+				on:click="{toggleReportStatus}"
 				type="button"
 			>
 				{report.open ? "Close" : "Reopen" } report
 			</button>
 
-			<button 
-				class="delete"
-				on:click={deleteReport}
-				type="button"
-			>
+			<button class="delete" on:click="{deleteReport}" type="button">
 				Delete report
 			</button>
 		</div>

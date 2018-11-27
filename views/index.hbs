@@ -1,13 +1,13 @@
 <script type="module">
-	import Index from "/components/index.js";
+import Index from "/components/index.js";
 
-	const component = new Index({
-		props: {
-			applications: {{{ applications }}},
-			reports: {{{ reports }}},
-		},
-		target: document.body,
-	});
+const component = new Index({
+	props: {
+		applications: {{{ applications }}},
+		reports: {{{ reports }}},
+	},
+	target: document.body,
+});
 
-	window.component = component;
+window.component = component;
 </script>

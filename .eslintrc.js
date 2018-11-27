@@ -18,14 +18,15 @@ module.exports = {
 	},
 	plugins: ["html", "import", "unicorn", "@tivac/svelte"],
 	settings: {
-		"html/html-extensions": [".html", ".htmlx", ".svelte"],
+		"html/html-extensions": [".hbs", ".html", ".htmlx", ".svelte"],
 	},
 	rules: {
-		/* =================================== */
-		/* ✔ eslint:recommended                */
-		/* ✘ unused                            */
-		/* 🕇 custom                            */
-		/* =================================== */
+		// ======================================
+		// ✔ eslint:recommended
+		// ✘ unused
+		// 🕇 custom
+		// ★ prettier
+		// ======================================
 
 		/* =================================== */
 		/* Possible Errors                     */
@@ -201,7 +202,7 @@ module.exports = {
 			{ exceptions: ["a", "b", "h", "i", "n", "x"] },
 		],
 		"id-match": "error",
-		"implicit-arrow-linebreak": "error",
+		/* ★ "implicit-arrow-linebreak": "error", */
 		/* 🕇 */ indent: ["error", "tab"],
 		"jsx-quotes": "error",
 		"key-spacing": "error",

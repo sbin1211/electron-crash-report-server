@@ -3,39 +3,40 @@
 </svelte:head>
 
 <script>
-	import AppBar from "./app-bar.svelte";
-	import prettyMs from "pretty-ms";
+import AppBar from "./app-bar.svelte";
+import prettyMs from "pretty-ms";
 
-	export let applications = [];
-	export let reports = [];
+export let applications = [];
+export let reports = [];
 
-	const title = "Crash reports";
+const title = "Crash reports";
 
-	let application = "";
-	let closed = true;
-	
-	try {
-		let { application: a, closed: b } = localStorage;
+let application = "";
+let closed = true;
 
-		a = JSON.parse(a);
-		b = JSON.parse(b);
+try {
+	let { application: a, closed: b } = localStorage;
 
-		if (a.value) {
-			const { value: previousApplication } = a;
-			application = previousApplication;
-		}
+	a = JSON.parse(a);
+	b = JSON.parse(b);
 
-		// eslint-disable-next-line no-undefined
-		if (b.value !== undefined && (b.value === true || b.value === false)) {
-			const { value: previousClosed } = b;
-			closed = previousClosed;
-		}
-	} catch (error) {
-		// eslint-disable-next-line no-console
-		console.warn(error);
+	if (a.value) {
+		const { value: previousApplication } = a;
+		application = previousApplication;
 	}
 
-	const selected = () => reports
+	// eslint-disable-next-line no-undefined
+	if (b.value !== undefined && (b.value === true || b.value === false)) {
+		const { value: previousClosed } = b;
+		closed = previousClosed;
+	}
+} catch (error) {
+	// eslint-disable-next-line no-console
+	console.warn(error);
+}
+
+const selected = () =>
+	reports
 		.filter(x => {
 			if (!application) {
 				return x;
@@ -52,33 +53,34 @@
 			return x.open;
 		});
 
-	const created = at => {
-		const options = { compact: true };
-		const start = new Date(at);
-		const current = new Date(Date.now());
-		const duration = prettyMs(current - start, options).replace("~", "");
-		return `created ${duration} ago`;
-	};
+const created = at => {
+	const options = { compact: true };
+	const start = new Date(at);
+	const current = new Date(Date.now());
+	const duration = prettyMs(current - start, options).replace("~", "");
+	return `created ${duration} ago`;
+};
 
-	const toggleClosed = () => {
-		closed = !closed;
-		localStorage.closed = JSON.stringify({ value: closed });
-	};
+const toggleClosed = () => {
+	closed = !closed;
+	localStorage.closed = JSON.stringify({ value: closed });
+};
 
-	const changeApplication = () => {
-		localStorage.application = JSON.stringify({ value: application });
-	};
+const changeApplication = () => {
+	localStorage.application = JSON.stringify({ value: application });
+};
 </script>
 
 <AppBar>
 	<h1 slot="title">{title}</h1>
 	<div slot="extra">
-		<label on:click={toggleClosed}>
+		<label on:click="{toggleClosed}">
 			{#if closed}
 			<img alt="show closed reports" src="/baseline-check_box-24px.svg" />
 			{:else}
 			<img
-				alt="hide closed reports" src="/baseline-check_box_outline_blank-24px.svg" 
+				alt="hide closed reports"
+				src="/baseline-check_box_outline_blank-24px.svg"
 			/>
 			{/if}
 			<span>Show closed</span>
@@ -87,10 +89,10 @@
 		{#if applications.length > 0}
 		<label>
 			<span class="sr-only">Show application</span>
-			<select bind:value={application} on:change={changeApplication}>
+			<select bind:value="{application}" on:change="{changeApplication}">
 				<option value="">Show all</option>
 				{#each applications as application}
-				<option value={application}>{application}</option>
+				<option value="{application}">{application}</option>
 				{/each}
 			</select>
 		</label>
@@ -101,7 +103,7 @@
 <main>
 	<ul class="wrap">
 		{#each selected() as report (report.id)}
-		<li class:closed={!report.open}>
+		<li class:closed="{!report.open}">
 			<a href="/reports/{report.id}">
 				<div>
 					<div class="id"><span>#</span>{report.id}</div>
