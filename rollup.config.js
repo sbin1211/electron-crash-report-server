@@ -42,7 +42,11 @@ export default {
 				},
 			},
 		}),
-		production && closureCompiler(),
+		closureCompiler({
+			// Disable strict mode due to bug in Svelte 3 alpha.
+			// eslint-disable-next-line camelcase
+			strict_mode_input: false,
+		}),
 		production && filesize(),
 	],
 };

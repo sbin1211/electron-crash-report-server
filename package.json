@@ -46,8 +46,8 @@
 		"rollup-plugin-commonjs": "9.x",
 		"rollup-plugin-filesize": "5.x",
 		"rollup-plugin-node-resolve": "3.x",
-		"rollup-plugin-svelte": "file:../sveltejs/rollup-plugin-svelte",
-		"svelte": "file:../sveltejs/svelte"
+		"rollup-plugin-svelte": "4.x",
+		"svelte": "alpha"
 	},
 	"private": true
 }
