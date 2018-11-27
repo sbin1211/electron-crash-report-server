@@ -10,9 +10,6 @@
 	"scripts": {
 		"build": "rollup -c",
 		"start": "node -r esm server.js",
-		"dev": "run-p --race *:dev",
-		"build:dev": "rollup -cw",
-		"start:dev": "nodemon -r esm -i out -i views server.js",
 		"heroku-postbuild": "yarn run build"
 	},
 	"engines": {
@@ -41,7 +38,6 @@
 		"eslint-plugin-import": "2.x",
 		"eslint-plugin-unicorn": "6.x",
 		"nodemon": "1.x",
-		"npm-run-all": "4.x",
 		"prettier": "1.x",
 		"pretty-ms": "4.x",
 		"rollup": "0.x",
