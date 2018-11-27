@@ -18,7 +18,9 @@ jobs:
           name: yarn test
           command: |
             "`yarn global bin`/greenkeeper-lockfile-update"
-            yarn test
+            yarn run prettier -l --parser=vue 'views/*.hbs'
+            yarn run prettier -l '**/*.{css,js,json,md,yml}' '!out/*'
+            yarn run eslint . --ext=.js,.svelte --ignore-pattern='out/*'
             "`yarn global bin`/greenkeeper-lockfile-upload"
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
