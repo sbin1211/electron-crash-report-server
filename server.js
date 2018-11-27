@@ -366,6 +366,21 @@ const main = async () => {
 		path: "/components/{path}",
 	});
 
+	// Route: GET /bundle.css
+	server.route({
+		method: GET,
+		options: {
+			handler: (request, h) => {
+				const {
+					params: { extension },
+				} = request;
+				const path = resolve("out", `bundle.${extension}`);
+				return h.file(path);
+			},
+		},
+		path: "/bundle.{extension}",
+	});
+
 	// Route: GET /{path}
 	server.route({
 		method: GET,

@@ -38,6 +38,8 @@
 		"eslint-plugin-import": "2.x",
 		"eslint-plugin-unicorn": "6.x",
 		"nodemon": "1.x",
+		"postcss": "7.x",
+		"postcss-preset-env": "6.x",
 		"prettier": "1.x",
 		"pretty-ms": "4.x",
 		"rollup": "0.x",
