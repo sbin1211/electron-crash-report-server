@@ -34,6 +34,7 @@ export default {
 			preprocess: {
 				style: async ({ content }) => {
 					const { css } = await postcss([postcssPresetEnv()]).process(content, {
+						// eslint-disable-next-line no-undefined
 						from: undefined,
 					});
 

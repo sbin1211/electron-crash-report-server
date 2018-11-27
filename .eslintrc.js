@@ -211,7 +211,7 @@ module.exports = {
 		"lines-around-comment": "error",
 		"lines-between-class-members": "error",
 		"max-depth": "error",
-		/* 🕇 */ "max-len": ["error", { ignoreComments: true }],
+		/* 🕇 */ "max-len": ["error", { code: 100, ignoreComments: true }],
 		"max-lines": "error",
 		"max-lines-per-function": "error",
 		"max-nested-callbacks": "error",

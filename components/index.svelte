@@ -21,13 +21,17 @@
 		b = JSON.parse(b);
 
 		if (a.value) {
-			application = a.value;
+			const { value: previousApplication } = a;
+			application = previousApplication;
 		}
 
-		if (b.value && b.value === true || b.value === false) {
-			closed = b.value;
+		// eslint-disable-next-line no-undefined
+		if (b.value !== undefined && (b.value === true || b.value === false)) {
+			const { value: previousClosed } = b;
+			closed = previousClosed;
 		}
 	} catch (error) {
+		// eslint-disable-next-line no-console
 		console.warn(error);
 	}
 
@@ -63,7 +67,7 @@
 
 	const changeApplication = () => {
 		localStorage.application = JSON.stringify({ value: application });
-	}
+	};
 </script>
 
 <AppBar>
