@@ -1,5 +1,3 @@
-/* eslint-disable no-process-env */
-
 import closureCompiler from "@ampproject/rollup-plugin-closure-compiler";
 import commonjs from "rollup-plugin-commonjs";
 import filesize from "rollup-plugin-filesize";
@@ -15,7 +13,6 @@ const input = readdirSync(directory).map(x => resolve(directory, x));
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	// Rollup v1 default.
 	experimentalCodeSplitting: true,
 	input,
 	output: {
@@ -27,14 +24,11 @@ export default {
 		commonjs(),
 		nodeResolve(),
 		svelte({
-			css: css => {
-				css.write(resolve("out", "bundle.css"));
-			},
+			css: css => css.write(resolve("out", "bundle.css")),
 			dev: !production,
 			preprocess: {
 				style: async ({ content }) => {
 					const { css } = await postcss([postcssPresetEnv()]).process(content, {
-						// eslint-disable-next-line no-undefined
 						from: undefined,
 					});
 
@@ -44,7 +38,6 @@ export default {
 		}),
 		closureCompiler({
 			// Disable strict mode due to bug in Svelte 3 alpha.
-			// eslint-disable-next-line camelcase
 			strict_mode_input: false,
 		}),
 		production && filesize(),

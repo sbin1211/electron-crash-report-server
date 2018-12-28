@@ -1,4 +1,4 @@
-/* eslint-disable max-lines, max-lines-per-function, max-statements, no-console, no-process-env */
+/* eslint-disable no-console */
 
 import "dotenv/config";
 import { unlink, writeFile } from "fs";
@@ -261,7 +261,6 @@ const main = async () => {
 					const closed = doc.open ? new Date() : null;
 
 					doc.open = !doc.open;
-					// eslint-disable-next-line camelcase
 					doc.closed_at = closed;
 
 					const report = await server.app.database.reports.save(doc);
@@ -287,7 +286,6 @@ const main = async () => {
 			handler: async request => {
 				try {
 					const id = Number(request.params.id);
-					// eslint-disable-next-line max-len
 					const report = await server.app.database.reports.destroy(id);
 
 					delete report.dump;
@@ -343,7 +341,6 @@ const main = async () => {
 					const stack = await walkStackAsync(path);
 					await unlinkAsync(path);
 
-					// eslint-disable-next-line camelcase
 					return { stack_trace: stack.toString() };
 				} catch (error) {
 					console.error(error);

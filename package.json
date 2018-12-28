@@ -11,7 +11,9 @@
 		"build": "rollup -c",
 		"start": "node -r esm server.js",
 		"watch": "nodemon",
-		"heroku-postbuild": "yarn run build"
+		"fmt": "prettier --loglevel=warn --write '**/*' && eslint . --ext=js,svelte --fix",
+		"lint": "prettier --list-different '**/*' && eslint . --ext=js,svelte",
+		"heroku-postbuild": "yarn build"
 	},
 	"engines": {
 		"node": "10.x",
@@ -34,6 +36,9 @@
 		"@ampproject/rollup-plugin-closure-compiler": "0.x",
 		"@tivac/eslint-plugin-svelte": "1.x",
 		"eslint": "5.x",
+		"eslint-config-airbnb-base": "13.x",
+		"eslint-config-oz": "github:johnmuhl/eslint-config-oz",
+		"eslint-config-prettier": "3.x",
 		"eslint-import-resolver-node": "0.x",
 		"eslint-plugin-html": "5.x",
 		"eslint-plugin-import": "2.x",

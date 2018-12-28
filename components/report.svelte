@@ -36,7 +36,6 @@ const getStackTrace = async () => {
 		stackTraceVisible = !stackTraceVisible;
 		return report;
 	} catch (error) {
-		// eslint-disable-next-line no-console
 		console.error(error);
 		throw error;
 	}
@@ -56,7 +55,6 @@ const toggleReportStatus = async () => {
 		report = data;
 		return report;
 	} catch (error) {
-		// eslint-disable-next-line no-console
 		console.error(error);
 		throw error;
 	}
@@ -69,7 +67,6 @@ const deleteReport = async () => {
 
 		document.location.pathname = "/";
 	} catch (error) {
-		// eslint-disable-next-line no-console
 		console.error(error);
 		throw error;
 	}
@@ -139,7 +136,7 @@ const deleteReport = async () => {
 		{#if detailsVisible}
 		<pre>{JSON.stringify(report.body, null, 2)}</pre>
 		{/if}
-		
+
 		{#if stackTraceVisible}
 		<pre>{report.stackTrace}</pre>
 		{/if}

@@ -1,0 +1,11 @@
+assets/
+out/
+views/
+
+.env*
+.git*
+.prettier*
+.eslintignore
+Procfile
+shrinkwrap.yaml
+*.log

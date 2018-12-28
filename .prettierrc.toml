@@ -1,3 +1,9 @@
 proseWrap = "always"
 trailingComma = "es5"
 useTabs = true
+
+[[overrides]]
+files = "**/*.{htmlx,svelte}"
+
+[overrides.options]
+parser = "vue"

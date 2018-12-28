@@ -25,13 +25,11 @@ try {
 		application = previousApplication;
 	}
 
-	// eslint-disable-next-line no-undefined
 	if (b.value !== undefined && (b.value === true || b.value === false)) {
 		const { value: previousClosed } = b;
 		closed = previousClosed;
 	}
 } catch (error) {
-	// eslint-disable-next-line no-console
 	console.warn(error);
 }
 
