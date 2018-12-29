@@ -1,123 +1,157 @@
 <svelte:head>
-	<title>{title}</title>
+	<title>crash reports</title>
 </svelte:head>
 
+<div id="filters">
+	<label on:click={toggle_closed_visible}>
+		{#if closed_visible}
+		<svg width="24" height="24">
+			<path d="M0 0h24v24H0z" fill="none" />
+			<path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#fff" />
+		</svg>
+		{:else}
+		<svg width="24" height="24">
+			<path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="#fff" />
+			<path d="M0 0h24v24H0z" fill="none" />
+		</svg>
+		{/if}
+		<span>show closed?</span>
+	</label>
+
+	{#if applications.length > 0}
+	<label>
+		<span class="sr-only">select application</span>
+		<select bind:value={application} on:change={change_application}>
+			<option value="">show all</option>
+			{#each applications as application}
+			<option value={application}>{application}</option>
+			{/each}
+		</select>
+	</label>
+	{/if}
+</div>
+
+<ul>
+	{#each selected() as report}
+	<li class:open={report.open}>
+		<a href="/r/{report.id}">
+			<div>
+				<div class="id">#<b>{report.id}</b></div>
+				<div class="age">{created(report.created_at)}</div>
+			</div>
+
+			{#if report.body}
+			{#if report.body._productName}
+			<div>{report.body._productName}</div>
+			{/if}
+
+			{#if report.body._version}
+			<div>{report.body._version}</div>
+			{/if}
+
+			{#if report.body.platform}
+			<div>{report.body.platform}</div>
+			{/if}
+
+			{#if report.body.process_type}
+			<div>{report.body.process_type}</div>
+			{/if}
+			{/if}
+		</a>
+	</li>
+	{/each}
+</ul>
+
 <script>
-import AppBar from "./app-bar.svelte";
-import prettyMs from "pretty-ms";
+import pretty_ms from "pretty-ms";
 
 export let applications = [];
 export let reports = [];
 
-const title = "Crash reports";
-
 let application = "";
-let closed = true;
+let closed_visible = true;
+let selected = [];
+
+function has_localStorage() {
+	try {
+		localStorage.setItem("$$", "$$");
+		localStorage.removeItem("$$");
+		return true;
+	} catch (error) {
+		return false;
+	}
+}
 
 try {
-	let { application: a, closed: b } = localStorage;
+	if (has_localStorage()) {
+		let {
+			application: _application,
+			closed_visible: _closed_visible
+		} = localStorage;
 
-	a = JSON.parse(a);
-	b = JSON.parse(b);
-
-	if (a.value) {
-		const { value: previousApplication } = a;
-		application = previousApplication;
-	}
-
-	if (b.value !== undefined && (b.value === true || b.value === false)) {
-		const { value: previousClosed } = b;
-		closed = previousClosed;
+		if (_application) application = _application;
+		if (_closed_visible) closed_visible = JSON.parse(_closed_visible);
 	}
 } catch (error) {
 	console.warn(error);
 }
 
-const selected = () =>
-	reports
-		.filter(x => {
-			if (!application) {
-				return x;
-			}
+$: selected = () => {
+	return reports.filter(x => {
+		if (application) return x.body._productName === application;
+		return x;
+	}).filter(x => {
+		if (closed_visible) return x;
+		return x.open;
+	});
+};
 
-			// eslint-disable-next-line no-underscore-dangle
-			return x.body._productName === application;
-		})
-		.filter(x => {
-			if (closed) {
-				return x;
-			}
+function change_application() {
+	if (has_localStorage()) localStorage.application = application;
+}
 
-			return x.open;
-		});
+function created(at) {
+	if (typeof pretty_ms !== "function") return "—";
 
-const created = at => {
-	const options = { compact: true };
+	const now = new Date(Date.now());
 	const start = new Date(at);
-	const current = new Date(Date.now());
-	const duration = prettyMs(current - start, options).replace("~", "");
-	return `created ${duration} ago`;
+	const time = pretty_ms(now - start, { compact: true });
+
+	return `${time} ago`;
 };
 
-const toggleClosed = () => {
-	closed = !closed;
-	localStorage.closed = JSON.stringify({ value: closed });
-};
-
-const changeApplication = () => {
-	localStorage.application = JSON.stringify({ value: application });
-};
+function toggle_closed_visible() {
+	closed_visible = !closed_visible
+	if (has_localStorage()) localStorage.closed_visible = closed_visible;
+}
 </script>
 
-<AppBar>
-	<h1 slot="title">{title}</h1>
-	<div slot="extra">
-		<label on:click="{toggleClosed}">
-			{#if closed}
-			<img alt="show closed reports" src="/baseline-check_box-24px.svg" />
-			{:else}
-			<img
-				alt="hide closed reports"
-				src="/baseline-check_box_outline_blank-24px.svg"
-			/>
-			{/if}
-			<span>Show closed</span>
-		</label>
-
-		{#if applications.length > 0}
-		<label>
-			<span class="sr-only">Show application</span>
-			<select bind:value="{application}" on:change="{changeApplication}">
-				<option value="">Show all</option>
-				{#each applications as application}
-				<option value="{application}">{application}</option>
-				{/each}
-			</select>
-		</label>
-		{/if}
-	</div>
-</AppBar>
-
-<main>
-	<ul class="wrap">
-		{#each selected() as report (report.id)}
-		<li class:closed="{!report.open}">
-			<a href="/reports/{report.id}">
-				<div>
-					<div class="id"><span>#</span>{report.id}</div>
-					<div class="created-at">{created(report.created_at)}</div>
-				</div>
-				<div class="name">{report.body._productName}</div>
-				<div class="version">{report.body._version}</div>
-				<div class="platform">{report.body.platform}</div>
-				<div class="process-type">{report.body.process_type}</div>
-			</a>
-		</li>
-		{/each}
-	</ul>
-</main>
-
 <style>
+#filters {
+	display: flex;
+	align-items: center;
+	color: white;
+	background-color: black;
+}
+
+label {
+	display: flex;
+	align-items: center;
+	padding: 1rem 1.5rem;
+}
+
+label:first-child {
+	margin-right: 2rem;
+}
+
+label svg {
+	margin-right: 0.5rem;
+}
+
+select {
+	font-size: 1rem;
+}
+
 ul {
 	list-style-type: none;
 }
@@ -126,65 +160,48 @@ li:not(:last-child) {
 	border-bottom: 1px solid gainsboro;
 }
 
-li a {
+a {
 	display: flex;
 	align-items: center;
-	padding: 1.5rem 2rem;
+	justify-content: space-between;
+	padding: 1rem 1.5rem;
 	text-decoration: none;
-	color: black;
+	color: dimgray;
+	background-color: ghostwhite;
+	/* background-color: whitesmoke; */
 }
 
-li a > div {
-	width: 20%;
+a > div {
+	width: 15%;
 }
 
-li a > div:not(:last-child) {
-	margin-right: 2rem;
+a > div:first-child {
+	width: 40%;
 }
 
-li a .id {
+.id {
 	font-family: monospace;
-	font-size: 1.6153846153846154rem;
-	font-weight: 900;
-}
-
-li a .id span {
+	font-size: calc(18rem/13);
 	font-weight: 300;
 	color: dimgray;
 }
 
-li a .created-at {
+.id b {
+	font-weight: 400;
+}
+
+.age {
 	font-size: 0.875rem;
 	color: dimgray;
 }
 
-li a .name,
-li a .version,
-li a .platform,
-li a .process-type {
-	text-transform: lowercase;
+.open a,
+.open .id {
+	color: black;
+	background-color: white;
 }
 
-.closed a {
-	color: gray;
-	background-color: whitesmoke;
-}
-
-.closed a .id {
-	font-weight: 400;
-}
-
-label {
-	display: flex;
-	align-items: center;
-	text-transform: lowercase;
-}
-
-label:not(:last-child) {
-	margin-right: 2rem;
-}
-
-label img {
-	margin-right: 0.25rem;
+.open .id b {
+	font-weight: 900;
 }
 </style>

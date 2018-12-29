@@ -1,217 +1,213 @@
 <svelte:head>
-	<title>Crash report #{report.id}</title>
+	<title>crash report #{report.id}</title>
 </svelte:head>
 
+<h1>
+	<a href="/">crash report</a>
+	#{report.id}
+</h1>
+
+<div id="timestamps">
+	<div>
+		<svg width="24" height="24" viewBox="0 0 24 24">
+			<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+			<path d="M0 0h24v24H0z" fill="none" />
+			<path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+		</svg>
+		<span>{new Date(report.created_at).toLocaleString()}</span>
+	</div>
+
+	<div>
+		<svg width="24" height="24" viewBox="0 0 24 24">
+			<defs><path id="a" d="M0 0h24v24H0V0z" /></defs>
+			<clipPath id="b"><use xlink:href="#a" overflow="visible" /></clipPath>
+			<path clip-path="url(#b)" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z" />
+		</svg>
+		<span>{report.open ? "—" : new Date(report.closed_at).toLocaleString()}</span>
+	</div>
+
+	<div>
+		<svg width="24" height="24">
+			<path d="M0 0h24v24H0z" fill="none" />
+			<path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0 0 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 0 0 7.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
+		</svg>
+		<span>{lifetime()}</span>
+	</div>
+</div>
+
+<div id="buttons">
+	<button
+		class:active={details_visible}
+		on:click={toggle_details_visible}
+		type="button"
+	>
+		details
+	</button>
+
+	<button
+		class:active={stack_trace_visible}
+		on:click={toggle_stack_trace_visible}
+		type="button"
+	>
+		stack trace
+	</button>
+
+	<a href="/r/{report.id}/dump" role="button">
+		download minidump
+	</a>
+
+	<button class:open={report.open} on:click={toggle_report_open} type="button">
+		{report.open ? "close" : "open" }
+	</button>
+
+	<button class="delete" on:click={delete_report} type="button">
+		delete
+	</button>
+</div>
+
+{#if details_visible}
+<h2>details</h2>
+<pre>{JSON.stringify(report.body, null, 2)}</pre>
+{/if}
+
+{#if stack_trace_visible}
+<h2>stack trace</h2>
+<pre>{stack_trace}</pre>
+{/if}
+
 <script>
-import AppBar from "./app-bar.svelte";
-import prettyMs from "pretty-ms";
+import pretty_ms from "pretty-ms";
 
 export let report = {};
 
-let detailsVisible = false;
-let stackTraceVisible = false;
+let details_visible = true;
+let stack_trace_visible = false;
+let lifetime = "";
+let stack_trace = "";
 
-const lifetime = () => {
+$: lifetime = () => {
 	const closed = new Date(report.closed_at || Date.now());
 	const created = new Date(report.created_at);
-	const options = { secDecimalDigits: 0 };
-	return prettyMs(closed - created, options);
+
+	if (typeof pretty_ms !== "function") return "—";
+	return pretty_ms(closed - created, { compact: true });
 };
 
-const toggleDetailsVisibility = () => {
-	detailsVisible = !detailsVisible;
-};
+async function delete_report() {
+	try {
+		await fetch(`/r/${report.id}`, { method: "DELETE" });
+		document.location.pathname = "/";
+	} catch (error) {
+		throw error;
+	}
+}
 
-const getStackTrace = async () => {
-	if (report.stackTrace) {
-		stackTraceVisible = !stackTraceVisible;
+function toggle_details_visible() {
+	details_visible = !details_visible;
+}
+
+async function toggle_report_open() {
+	// Make it instant!
+	report.open = !report.open;
+
+	try {
+		const response = await fetch(`/r/${report.id}`, { method: "PATCH" });
+		report = await response.json();
+	} catch (error) {
+		throw error;
+	}
+}
+
+async function toggle_stack_trace_visible() {
+	if (stack_trace) {
+		stack_trace_visible = !stack_trace_visible;
 		return null;
 	}
 
 	try {
-		const response = await fetch(`/reports/${report.id}/stack`);
-		const data = await response.json();
-		const { stack_trace: stackTrace } = data;
-		report.stackTrace = stackTrace;
-		stackTraceVisible = !stackTraceVisible;
-		return report;
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-};
-
-const toggleReportStatus = async () => {
-	try {
-		const options = { method: "PATCH" };
-		const response = await fetch(`/reports/${report.id}`, options);
+		const response = await fetch(`/r/${report.id}/stack`);
 		const data = await response.json();
 
-		if (report.stackTrace) {
-			const { stackTrace } = report;
-			data.stackTrace = stackTrace;
-		}
-
-		report = data;
-		return report;
+		stack_trace = data.stack_trace;
+		stack_trace_visible = !stack_trace_visible;
 	} catch (error) {
-		console.error(error);
 		throw error;
 	}
-};
-
-const deleteReport = async () => {
-	try {
-		const options = { method: "DELETE" };
-		const response = await fetch(`/reports/${report.id}`, options);
-
-		document.location.pathname = "/";
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-};
+}
 </script>
 
-<AppBar>
-	<h1 slot="title"><a href="/">Crash reports</a></h1>
-	<div slot="extra"><span>#{report.id}</span></div>
-</AppBar>
-
-<main>
-	<div class="wrap">
-		<div class="timestamp">
-			<img alt="created at" src="/baseline-access_time-24px.svg" />
-			<span>{new Date(report.created_at)}</span>
-		</div>
-
-		<div class="timestamp">
-			<img alt="created at" src="/baseline-watch_later-24px.svg" />
-			<span>
-				{#if report.open} — {:else} {new Date(report.closed_at)} {/if}
-			</span>
-		</div>
-
-		<div class="timestamp">
-			<img alt="created at" src="/baseline-timer-24px.svg" />
-			<span>{lifetime()}</span>
-		</div>
-
-		<div id="views">
-			<button
-				class:visible="{detailsVisible}"
-				type="button"
-				on:click="{toggleDetailsVisibility}"
-			>
-				View report details
-			</button>
-
-			<button
-				class:visible="{stackTraceVisible}"
-				type="button"
-				on:click="{getStackTrace}"
-			>
-				View stack trace
-			</button>
-
-			<a href="/reports/{report.id}/dump" role="button">
-				Download minidump
-			</a>
-		</div>
-
-		<div id="actions">
-			<button
-				class:closed="{!report.open}"
-				on:click="{toggleReportStatus}"
-				type="button"
-			>
-				{report.open ? "Close" : "Reopen" } report
-			</button>
-
-			<button class="delete" on:click="{deleteReport}" type="button">
-				Delete report
-			</button>
-		</div>
-
-		{#if detailsVisible}
-		<pre>{JSON.stringify(report.body, null, 2)}</pre>
-		{/if}
-
-		{#if stackTraceVisible}
-		<pre>{report.stackTrace}</pre>
-		{/if}
-	</div>
-</main>
-
 <style>
-main > div {
-	padding-top: 2rem;
-	padding-left: 2rem;
+h1,
+h2,
+pre,
+#timestamps,
+#buttons {
+	margin: 1rem 1.5rem;
+}
+
+h1,
+h2 {
+	font-family: monospace;
+	font-weight: 400;
+}
+
+h1 a {
+	color: black;
+	font-family: sans-serif;
+	font-weight: 900;
+}
+
+#timestamps div {
+	display: flex;
+	align-items: center;
+	margin: 0.5rem 0;
+}
+
+#timestamps svg {
+	margin-right: 0.5rem;
+}
+
+#buttons {
+	display: flex;
+	flex-wrap: wrap;
 }
 
 button,
 [role="button"] {
 	display: block;
+	margin-right: 0.5rem;
+	margin-bottom: 0.5rem;
 	padding: 1rem;
-	width: 100%;
-	font-family: sans-serif;
-	font-size: 1.125em;
-	text-align: left;
-	text-decoration: none;
-	color: black;
 	background-color: gainsboro;
-	border: 0;
-	cursor: default;
 }
 
-button:not(:last-child),
-[role="button"]:not(:last-child) {
-	margin-right: 0.25rem;
+button:last-child,
+[role="button"]:last-child {
+	margin-right: 0;
 }
 
-pre {
-	padding: 1rem;
-	margin: 2rem 0;
-	overflow: auto;
-	font-size: 1.2307692307692308rem; /* 16px */
-	background-color: whitesmoke;
-	border: 1px solid lightgray;
-	border-radius: 0.125rem;
-}
-
-.timestamp {
-	display: flex;
-	align-items: center;
-	margin: 0.5rem 0;
-	font-size: 0.875em;
-}
-
-.timestamp span {
-	margin-left: 0.5rem;
-}
-
-.closed {
-	color: black;
-	background-color: limegreen;
-}
-
-.visible {
+.active {
 	color: white;
-	background-color: royalblue;
+	background-color: rebeccapurple;
+}
+
+.open {
+	color: white;
+	background-color: darkgreen;
 }
 
 .delete {
 	color: white;
-	background-color: crimson;
+	background-color: darkred;
 }
 
-#actions,
-#views {
-	display: flex;
-	margin-bottom: 0.25rem;
-}
-
-#views {
-	margin-top: 2rem;
+pre {
+	padding: 1.5rem;
+	margin: 1rem 0;
+	overflow: auto;
+	font-size: 1.25rem;
+	background-color: ghostwhite;
+	border-top: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
 }
 </style>

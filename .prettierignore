@@ -1,11 +1,10 @@
-assets/
-out/
-views/
+build/
 
 .env*
 .git*
 .prettier*
 .eslintignore
 Procfile
+favicon.png
 shrinkwrap.yaml
 *.log
