@@ -86,7 +86,7 @@ try {
 	if (has_localStorage()) {
 		let {
 			application: _application,
-			closed_visible: _closed_visible
+			closed_visible: _closed_visible,
 		} = localStorage;
 
 		if (_application) application = _application;
@@ -97,13 +97,15 @@ try {
 }
 
 $: selected = () => {
-	return reports.filter(x => {
-		if (application) return x.body._productName === application;
-		return x;
-	}).filter(x => {
-		if (closed_visible) return x;
-		return x.open;
-	});
+	return reports
+		.filter(x => {
+			if (application) return x.body._productName === application;
+			return x;
+		})
+		.filter(x => {
+			if (closed_visible) return x;
+			return x.open;
+		});
 };
 
 function change_application() {
@@ -118,10 +120,10 @@ function created(at) {
 	const time = pretty_ms(now - start, { compact: true });
 
 	return `${time} ago`;
-};
+}
 
 function toggle_closed_visible() {
-	closed_visible = !closed_visible
+	closed_visible = !closed_visible;
 	if (has_localStorage()) localStorage.closed_visible = closed_visible;
 }
 </script>
@@ -181,7 +183,7 @@ a > div:first-child {
 
 .id {
 	font-family: monospace;
-	font-size: calc(18rem/13);
+	font-size: calc(18rem / 13);
 	font-weight: 300;
 	color: dimgray;
 }

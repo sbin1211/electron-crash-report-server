@@ -68,9 +68,7 @@
 {#if details_visible}
 <h2>details</h2>
 <pre>{JSON.stringify(report.body, null, 2)}</pre>
-{/if}
-
-{#if stack_trace_visible}
+{/if} {#if stack_trace_visible}
 <h2>stack trace</h2>
 <pre>{stack_trace}</pre>
 {/if}
