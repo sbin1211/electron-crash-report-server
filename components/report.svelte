@@ -126,8 +126,11 @@ async function toggle_stack_trace_visible() {
 		const response = await fetch(`/r/${report.id}/stack`);
 		const data = await response.json();
 
+		// eslint-disable-next-line prefer-destructuring
 		stack_trace = data.stack_trace;
 		stack_trace_visible = !stack_trace_visible;
+
+		return stack_trace;
 	} catch (error) {
 		throw error;
 	}

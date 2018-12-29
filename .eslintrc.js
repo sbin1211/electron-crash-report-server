@@ -12,6 +12,9 @@ module.exports = {
 			// Svelte 3 overrides:
 			// - import/no-mutable-exports
 			// - import/prefer-default-export
+			// - no-labels
+			// - no-restricted-syntax
+			// - no-unused-labels
 			// - no-unused-vars
 			// - prefer-const
 			rules: {
@@ -22,6 +25,9 @@ module.exports = {
 				"import/no-mutable-exports": 0,
 				"import/prefer-default-export": 0,
 				"no-console": 0,
+				"no-labels": 0,
+				"no-restricted-syntax": 0,
+				"no-unused-labels": 0,
 				"no-unused-vars": 0,
 				"prefer-const": 0,
 			},

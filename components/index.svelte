@@ -96,9 +96,10 @@ try {
 	console.warn(error);
 }
 
-$: selected = () => {
-	return reports
+$: selected = () =>
+	reports
 		.filter(x => {
+			// eslint-disable-next-line no-underscore-dangle
 			if (application) return x.body._productName === application;
 			return x;
 		})
@@ -106,7 +107,6 @@ $: selected = () => {
 			if (closed_visible) return x;
 			return x.open;
 		});
-};
 
 function change_application() {
 	if (has_localStorage()) localStorage.application = application;
