@@ -15,7 +15,7 @@ module.exports = [
 				const isSecure = NODE_ENV === "production";
 				const options = { isHttpOnly: false, isSecure };
 				const sql = "SELECT body, created_at, id, open FROM";
-				const query = `${sql} reports ORDER BY created_at DESC`;
+				const query = `${sql} reports ORDER BY created_at DESC LIMIT 30`;
 				const reports = await db.query(query);
 				const applications = reports
 					// eslint-disable-next-line no-underscore-dangle

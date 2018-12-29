@@ -1,3 +1,5 @@
+<svelte:window on:scroll="{handle_scroll}" />
+
 <svelte:head>
 	<title>crash reports</title>
 </svelte:head>
@@ -70,7 +72,23 @@ export let reports = [];
 
 let application = "";
 let closed_visible = true;
+let scrolled = false;
 let selected = [];
+
+async function handle_scroll(event) {
+	if (!scrolled) {
+		scrolled = true;
+
+		const response = await fetch("/r?offset=30");
+		const data = await response.json();
+		// eslint-disable-next-line no-underscore-dangle
+		const apps = data.map(x => x.body._productName).filter(x => x);
+
+		// Merge application names using Set to get a unique list.
+		applications = [...new Set(applications.concat(apps))].sort();
+		reports = reports.concat(data);
+	}
+}
 
 function has_localStorage() {
 	try {

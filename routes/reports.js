@@ -4,6 +4,27 @@ const NOT_FOUND = 404;
 
 module.exports = [
 	{
+		handler: async request => {
+			const db = await database;
+			const sql = "SELECT body, created_at, id, open FROM reports";
+			let query = `${sql} ORDER BY created_at DESC`;
+			let {
+				query: { limit, offset },
+			} = request;
+
+			limit = Number(limit) || 0;
+			offset = Number(offset) || 0;
+			query = `${query} OFFSET ${offset}`;
+
+			if (limit > 0) query = `${query} LIMIT ${limit}`;
+
+			return db.query(query);
+		},
+		method: "GET",
+		options: { auth: "simple" },
+		path: "/r",
+	},
+	{
 		handler: async (request, h) => {
 			try {
 				const db = await database;
