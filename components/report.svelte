@@ -52,7 +52,7 @@
 		stack trace
 	</button>
 
-	<a href="/r/{report.id}/dump" role="button">
+	<a href="/d/{report.id}" role="button">
 		download minidump
 	</a>
 
@@ -123,7 +123,7 @@ async function toggle_stack_trace_visible() {
 	}
 
 	try {
-		const response = await fetch(`/r/${report.id}/stack`);
+		const response = await fetch(`/s/${report.id}`);
 		const data = await response.json();
 
 		// eslint-disable-next-line prefer-destructuring
