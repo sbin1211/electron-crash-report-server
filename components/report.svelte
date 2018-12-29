@@ -44,13 +44,14 @@
 		details
 	</button>
 
-	<button
+	<a
 		class:active={stack_trace_visible}
 		on:click={toggle_stack_trace_visible}
-		type="button"
+		href="/s/{report.id}"
+		role="button"
 	>
 		stack trace
-	</button>
+	</a>
 
 	<a href="/d/{report.id}" role="button">
 		download minidump
@@ -116,7 +117,9 @@ async function toggle_report_open() {
 	}
 }
 
-async function toggle_stack_trace_visible() {
+async function toggle_stack_trace_visible(event) {
+	event.preventDefault();
+
 	if (stack_trace) {
 		stack_trace_visible = !stack_trace_visible;
 		return null;
