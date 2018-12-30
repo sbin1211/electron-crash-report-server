@@ -7,4 +7,5 @@ build/
 Procfile
 favicon.png
 shrinkwrap.yaml
+yarn.lock
 *.log

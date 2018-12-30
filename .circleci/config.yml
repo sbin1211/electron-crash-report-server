@@ -5,23 +5,26 @@ jobs:
     working_directory: ~/electron-crash-report-server
     docker:
       - image: circleci/node:10
+
     steps:
       - checkout
+
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
+
       - run:
           name: yarn install
           command: |
             yarn global add greenkeeper-lockfile@1
             yarn install
+
       - run:
           name: yarn test
           command: |
             "`yarn global bin`/greenkeeper-lockfile-update"
-            yarn run prettier -l --parser=vue 'views/*.hbs'
-            yarn run prettier -l '**/*.{css,js,json,md,yml}' '!out/*'
-            yarn run eslint . --ext=.js,.svelte --ignore-pattern='out/*'
+            yarn lint
             "`yarn global bin`/greenkeeper-lockfile-upload"
+
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
