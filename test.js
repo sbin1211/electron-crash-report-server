@@ -3,10 +3,11 @@ process.env.DATABASE_URL =
 	`postgres://localhost/electron_crash_report_server_test`;
 process.env.PORT = `0`;
 
+const { expect } = require(`@hapi/code`);
 const fixture = require(`./fixtures/index.js`);
 const lab = require(`@hapi/lab`);
-const { expect } = require(`@hapi/code`);
 const { start } = require(`./server.js`);
+
 const {
 	after,
 	afterEach,
