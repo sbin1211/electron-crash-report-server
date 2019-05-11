@@ -12,7 +12,7 @@
 		"fmt:default": "yarn run prettier:default --write",
 		"fmt:html": "yarn run prettier:html --write",
 		"lint": "eslint . && yarn run prettier:default -l && yarn run prettier:html -l",
-		"lint:css": "yarn run stylelint 'assets/*.css'",
+		"lint:css": "stylelint 'assets/*.css'",
 		"prettier:default": "prettier --loglevel warn '**/*.{css,js,json,markdown}'",
 		"prettier:html": "prettier --loglevel warn 'templates/*' --parser html",
 		"start": "node index.js",

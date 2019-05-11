@@ -1,7 +1,16 @@
 {
-	"name": "electron-crash-report-server",
+	"name": "Electron crash report server",
 	"description": "Crash report server for Electron applications",
 	"repository": "https://github.com/johnmuhl/electron-crash-report-server",
+	"keywords": [
+		"electron",
+		"breakpad",
+		"breakpad-server",
+		"crash",
+		"crash-reports",
+		"hapi",
+		"server"
+	],
 	"addons": [
 		{
 			"plan": "heroku-postgresql",
