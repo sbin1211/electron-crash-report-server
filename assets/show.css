@@ -3,10 +3,10 @@ main {
 }
 
 pre {
-	font-size: 1.2307692307692308rem; /* ~16px */
 	margin: 1rem 0;
-	tab-size: 4;
 	overflow-x: auto;
+	font-size: 1.2307692307692308rem; /* ~16px */
+	tab-size: 4;
 }
 
 #timestamps {
@@ -35,14 +35,14 @@ pre {
 #actions button,
 #actions .button {
 	all: unset;
-	background-color: #bdbdbd;
-	cursor: pointer;
 	display: flex;
 	align-items: center;
-	line-height: 1;
 	padding: 1rem 1.5rem;
-	text-transform: capitalize;
 	font-size: 1.25rem;
+	line-height: 1;
+	text-transform: capitalize;
+	cursor: pointer;
+	background-color: #bdbdbd;
 }
 
 #actions button:focus,
