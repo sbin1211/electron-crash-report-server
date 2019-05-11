@@ -205,7 +205,7 @@ const start = async () => {
 							.binary()
 							.min(MINIDUMP_MIN)
 							.required(),
-						ver: joi.string().regex(SEMVER_REGEX),
+						ver: joi.string().regex(SEMVER_REGEX, { name: "semantic versioning" }),
 						// Other attributes observed in the wild.
 						extra1: joi.string(),
 						extra2: joi.string(),
