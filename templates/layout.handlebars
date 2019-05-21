@@ -50,7 +50,7 @@
 			outline: 0.25rem dotted blue;
 		}
 
-		header .button img {
+		header .button svg {
 			margin-right: 0.25rem;
 		}
 
@@ -65,12 +65,10 @@
 			id="opened-count"
 			href="/"
 		>
-			<img
-				alt=""
-				width="24"
-				height="24"
-				src="/assets/baseline-error_outline-24px.svg"
-			/>
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+				<path fill="none" d="M0 0h24v24H0V0z" />
+				<path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+			</svg>
 			<span> {{opened_count}} </span>&nbsp; Open
 		</a>
 		<a
@@ -78,12 +76,10 @@
 			id="closed-count"
 			href="/?closed=true"
 		>
-			<img
-				alt=""
-				width="24"
-				height="24"
-				src="/assets/baseline-check-24px.svg"
-			/>
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+				<path d="M0 0h24v24H0z" fill="none" />
+				<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+			</svg>
 			<span> {{closed_count}} </span>&nbsp; Closed
 		</a>
 	</header>

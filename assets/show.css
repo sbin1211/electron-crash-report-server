@@ -24,7 +24,7 @@ pre {
 	margin-right: 2rem;
 }
 
-#timestamps div img {
+#timestamps div svg {
 	margin-right: 0.25rem;
 }
 
@@ -56,7 +56,9 @@ pre {
 }
 
 #actions button img,
-#actions .button img {
+#actions button svg,
+#actions .button img,
+#actions .button svg {
 	margin-right: 0.5rem;
 }
 
