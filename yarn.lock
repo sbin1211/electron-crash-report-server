@@ -315,10 +315,10 @@
     "@hapi/hoek" "6.x.x"
     "@hapi/topo" "3.x.x"
 
-"@hapi/lab@19.x":
-  version "19.0.1"
-  resolved "https://registry.yarnpkg.com/@hapi/lab/-/lab-19.0.1.tgz#48e8d879f5b32998d59a084e722f984ca210e763"
-  integrity sha512-WuK1/38ghhzTNbWScRGadHAkZr49454jokvlKWsaAK4DxuaJQuKJERkJZ2Pte++kEGGGz9EyCqkOtzw3zJZEuA==
+"@hapi/lab@^19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@hapi/lab/-/lab-19.1.0.tgz#6083c77fcce25899f58650b95d2673e68ddae410"
+  integrity sha512-bfl2B5Vt8RkK1EUbTRU7//oTBozrZRybx1LvYMeggl9TPEM3wWa7mQG9LARk2BcXomyJOD41b1qBvUuWk1C6vg==
   dependencies:
     "@hapi/bossy" "4.x.x"
     "@hapi/eslint-config-hapi" "12.x.x"
