@@ -35,6 +35,42 @@ working example. The login and password for the demo are **`crash`** and
 If there are no sample reports use the [example] (or any other) app to add some
 reports to the demo server.
 
+## github & gitlab
+
+`electron-crash-report-server` can create new issues on GitHub and/or Gitlab
+when it receives a crash report. Using a private repository for these issues is
+recommended since stack traces and dump files may contain sensitive information
+about your users or application.
+
+- [github demo](https://github.com/johnmuhl/crash-reports/issues)
+- [gitlab demo](https://gitlab.com/johnmuhl/crash-reports/issues)
+
+To get setup you need to add a few environment variables.
+
+### github & gitlab
+
+Both services require you to set `ECRS_URL`; **note the lack of trailing
+slash**.
+
+```sh
+ECRS_URL = "https://pacific-falls-32011.herokuapp.com"
+```
+
+### github
+
+```sh
+GITHUB_OWNER = "user_name"
+GITHUB_REPO = "repo_name"
+GITHUB_TOKEN = "user_token"
+```
+
+### gitlab
+
+```sh
+GITLAB_ID = "repo_id"
+GITLAB_TOKEN = "user_token"
+```
+
 ## development
 
 [![CircleCI][circle-img]][circle-url]
