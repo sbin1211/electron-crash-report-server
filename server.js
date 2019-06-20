@@ -190,13 +190,12 @@ const start = async () => {
 				auth: false,
 				validate: {
 					/* eslint-disable sort-keys, unicorn/prevent-abbreviations */
-					payload: {
+					payload: joi.object({
 						_companyName: joi.string(),
 						_productName: joi.string(),
 						_version: joi
 							.string()
 							.regex(SEMVER_REGEX, { name: "semantic versioning" }),
-						extra: joi.alternatives(joi.object(), joi.string()),
 						guid: joi.string().guid(),
 						platform: joi.string().regex(/^darwin|linux|win32$/),
 						process_type: joi.string().regex(/^browser|renderer$/),
@@ -216,7 +215,7 @@ const start = async () => {
 						pid: joi.string(),
 						ptime: joi.string(),
 						rept: joi.string(),
-					},
+					}).unknown(),
 					/* eslint-enable sort-keys, unicorn/prevent-abbreviations */
 				},
 			},
