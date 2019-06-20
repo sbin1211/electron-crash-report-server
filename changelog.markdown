@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.1] - 2019-06-20
+
+### Fixed
+
+- Don't fail validation when "extra" information is posted
+
 ## [2.0.0] - 2019-05-10
 
 ### Added
