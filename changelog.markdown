@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0] - 2019-06-22
+
+### Added
+
+- Expose hapi server `ADDRESS` option
+- Expose hapi server `HOST` option
+
 ## [2.1.0] - 2019-06-22
 
 ### Added
@@ -359,7 +366,9 @@
 - Dependency on virtual-dom
 
 [unreleased]:
-	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.1.0...HEAD
+	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.2.0...HEAD
+[2.2.0]:
+	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.1.0...v2.2.0
 [2.1.0]:
 	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.0.1...v2.1.0
 [2.0.1]:

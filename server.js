@@ -53,7 +53,9 @@ const start = async () => {
 		env: { DATABASE_URL: database_url },
 	} = process;
 	const server = hapi.server({
+		address: process.env.ADDRESS || "0.0.0.0",
 		compression: { minBytes: 1 },
+		host: process.env.HOST || "localhost",
 		port: process.env.PORT,
 		router: { stripTrailingSlash: true },
 	});
