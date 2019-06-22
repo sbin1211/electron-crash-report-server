@@ -1,6 +1,6 @@
 # Changelog
 
-## [unreleased]
+## [2.1.0] - 2019-06-22
 
 ### Added
 
@@ -359,7 +359,9 @@
 - Dependency on virtual-dom
 
 [unreleased]:
-	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.0.1...HEAD
+	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.1.0...HEAD
+[2.1.0]:
+	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.0.1...v2.1.0
 [2.0.1]:
 	https://github.com/johnmuhl/electron-crash-report-server/compare/v2.0.0...v2.0.1
 [2.0.0]:
