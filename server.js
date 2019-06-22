@@ -12,6 +12,7 @@ const inert = require("@hapi/inert");
 const joi = require("@hapi/joi");
 const massive = require("massive");
 const migrate = require("./migrate.js");
+const nodemailer = require("nodemailer");
 const pgMonitor = require("pg-monitor");
 const pino = require("hapi-pino");
 const prettyMs = require("pretty-ms");
@@ -226,7 +227,7 @@ const start = async () => {
 								form_data.append("description", body);
 								form_data.append("labels", labels.join(","));
 
-								got.post(
+								await got.post(
 									`${base_url}/projects/${process.env.GITLAB_ID}/issues`,
 									{
 										body: form_data,
@@ -236,6 +237,43 @@ const start = async () => {
 									}
 								);
 							}
+						}
+
+						if (process.env.SMTP_SERVER) {
+							const labels = process.env.SMTP_LABELS.split(",")
+								.map(x => document.body[x])
+								.join(", ");
+							/* eslint-disable no-eval, no-underscore-dangle */
+							const {
+								body: { _productName: product_name },
+							} = document;
+							const subject = eval(process.env.SMTP_SUBJECT);
+							/* eslint-enable no-eval, no-underscore-dangle */
+							const transporter = nodemailer.createTransport({
+								auth: {
+									pass: process.env.SMTP_PASSWORD,
+									user: process.env.SMTP_LOGIN,
+								},
+								host: process.env.SMTP_SERVER,
+								port: process.env.SMTP_PORT,
+							});
+
+							await transporter.sendMail({
+								attachments: [
+									{
+										content: document.dump,
+										contentType: "application/x-dmp",
+										filename: `${product_name}-crash-${document.id}.dmp`,
+									},
+								],
+								from: process.env.SMTP_FROM,
+								subject:
+									`${subject}${labels}` || `ecrs: Crash report ${document.id}`,
+								text: `${JSON.stringify(document.body, null, "\t")}\n\n---\n\n${
+									document.stack
+								}\n`,
+								to: process.env.SMTP_TO,
+							});
 						}
 
 						return document.id;

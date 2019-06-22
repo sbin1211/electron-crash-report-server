@@ -52,13 +52,13 @@ To get setup you need to add a few environment variables.
 Both services require you to set `ECRS_URL`; **note the lack of trailing
 slash**.
 
-```sh
+```toml
 ECRS_URL = "https://pacific-falls-32011.herokuapp.com"
 ```
 
 ### github
 
-```sh
+```toml
 GITHUB_OWNER = "user_name"
 GITHUB_REPO = "repo_name"
 GITHUB_TOKEN = "user_token"
@@ -66,10 +66,29 @@ GITHUB_TOKEN = "user_token"
 
 ### gitlab
 
-```sh
+```toml
 GITLAB_ID = "repo_id"
 GITLAB_TOKEN = "user_token"
 ```
+
+## email
+
+`electron-crash-report-server` can send an email when it receives a crash
+report.
+
+```toml
+SMTP_LOGIN = "postmaster@xxx.mailgun.org"
+SMTP_PASSWORD = "password is secret"
+SMTP_SERVER = "smtp.mailgun.org"
+SMTP_PORT = "587"
+SMTP_TO = "support@example.org"
+SMTP_FROM = "ecrs@example.org"
+SMTP_SUBJECT = "`ecrs: Crash report ${document.id}`"
+```
+
+🚨 `SMTP_SUBJECT` is `eval`ed at runtime so be careful what you include; a
+malicious user may be able to craft a crash report that executes code on your
+server.
 
 ## development
 
