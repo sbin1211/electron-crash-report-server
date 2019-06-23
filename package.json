@@ -8,17 +8,17 @@
 	"bugs": "https://github.com/johnmuhl/electron-crash-report-server/issues",
 	"repository": "github:johnmuhl/electron-crash-report-server",
 	"scripts": {
-		"fmt": "run-p -cs fmt:* && eslint . --fix",
-		"fmt:default": "yarn run prettier:default --write",
-		"fmt:html": "yarn run prettier:html --write",
-		"lint": "eslint . && yarn run prettier:default -l && yarn run prettier:html -l",
-		"lint:css": "stylelint 'assets/*.css'",
-		"prettier:default": "prettier --loglevel warn '**/*.{css,js,json,markdown}'",
-		"prettier:html": "prettier --loglevel warn 'templates/*' --parser html",
+		"fmt": "run-s -s fmt:*",
+		"fmt:prettier": "prettier --write '**/*.{css,handlebars,js,json,markdown}'",
+		"fmt:eslint": "eslint . --fix",
+		"lint": "run-p -s lint:*",
+		"lint:eslint": "eslint .",
+		"lint:prettier": "prettier -l '**/*.{css,handlebars,js,json,markdown}'",
+		"lint:stylelint": "stylelint 'assets/*.css'",
 		"start": "node index.js",
 		"start:dev": "nodemon -w '*.*' -w templates/ -e handlebars,js index.js",
-		"test": "lab -cLv --coverage-exclude test.js --shuffle test.js",
-		"test:watch": "nodemon lab --shuffle test.js"
+		"test": "lab -Lcv --coverage-exclude test.js --shuffle test.js",
+		"test:watch": "nodemon --exec 'lab --shuffle test.js'"
 	},
 	"engines": {
 		"node": "10.x",
@@ -61,6 +61,37 @@
 		"stylelint": "10.x",
 		"stylelint-config-recess-order": "2.x",
 		"stylelint-config-standard": "18.x"
+	},
+	"eslintConfig": {
+		"extends": [
+			"oz"
+		],
+		"rules": {
+			"camelcase": 0,
+			"unicorn/import-index": 0
+		}
+	},
+	"prettier": {
+		"proseWrap": "always",
+		"trailingComma": "es5",
+		"useTabs": true,
+		"overrides": [
+			{
+				"files": "*.handlebars",
+				"options": {
+					"parser": "html"
+				}
+			}
+		]
+	},
+	"stylelint": {
+		"extends": [
+			"stylelint-config-standard",
+			"stylelint-config-recess-order"
+		],
+		"rules": {
+			"indentation": "tab"
+		}
 	},
 	"private": true
 }
