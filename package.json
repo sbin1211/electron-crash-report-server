@@ -62,15 +62,6 @@
 		"stylelint-config-recess-order": "2.x",
 		"stylelint-config-standard": "18.x"
 	},
-	"eslintConfig": {
-		"extends": [
-			"oz"
-		],
-		"rules": {
-			"camelcase": 0,
-			"unicorn/import-index": 0
-		}
-	},
 	"prettier": {
 		"proseWrap": "always",
 		"trailingComma": "es5",
