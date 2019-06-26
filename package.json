@@ -52,7 +52,7 @@
 		"eslint-config-oz": "github:johnmuhl/eslint-config-oz",
 		"eslint-config-prettier": "^5.0.0",
 		"eslint-import-resolver-node": "0.x",
-		"eslint-plugin-html": "5.x",
+		"eslint-plugin-html": "^6.0.0",
 		"eslint-plugin-import": "2.x",
 		"eslint-plugin-unicorn": "^9.0.0",
 		"nodemon": "1.x",
