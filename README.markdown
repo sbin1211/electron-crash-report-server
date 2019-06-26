@@ -132,7 +132,7 @@ Use the [issue tracker][issues] to report bugs or discuss changes and features.
 [docker-compose]:
 	https://github.com/johnmuhl/electron-crash-report-server/blob/master/docker-compose.yaml
 [docs]: https://electronjs.org/docs/api/crash-reporter
-[example]: https://github.com/johnmuhl/electron-bomb
+[example]: https://git.axlotl.io/jm/electron-bomb
 [demo]: https://pacific-falls-32011.herokuapp.com/
 [issues]: https://github.com/johnmuhl/electron-crash-report-server/issues
 [license]:
