@@ -10,10 +10,6 @@ before_script:
   - apt-get update -q && apt-get install -yqq build-essential
   - yarn check || yarn install
 
-cache:
-  paths:
-    - node_modules/
-
 test:
   variables:
     DATABASE_URL: "postgresql://postgres:postgres@127.0.0.1:5432/$POSTGRES_DB"

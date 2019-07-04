@@ -13,7 +13,7 @@ the app has deployed use those values to login.
 🐳 `electron-crash-report-server` is available on Docker Hub. Refer to the
 [`docker-compose.yaml`][docker-compose] file for usage.
 
---- 
+---
 
 _If crash reports do not appear after the first deploy restart the app._
 
