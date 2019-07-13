@@ -60,7 +60,7 @@
 		"pino-colada": "1.x",
 		"prettier": "1.x",
 		"stylelint": "10.x",
-		"stylelint-config-recess-order": "2.x",
+		"stylelint-config-recess-order": "2.0.2",
 		"stylelint-config-standard": "18.x"
 	},
 	"prettier": {
