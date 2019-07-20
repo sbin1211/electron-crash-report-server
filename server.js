@@ -159,7 +159,7 @@ const start = async () => {
 			handler: async request => {
 				if (request.payload) {
 					const report = {
-						body: Object.assign({}, request.payload),
+						body: Object.assign({}, request.payload, { ip: request.info.remoteAddress }),
 						dump: request.payload.upload_file_minidump,
 					};
 
@@ -187,13 +187,13 @@ const start = async () => {
 							const title = `ecrs: Crash report ${document.id}`;
 							const body = `[Download dump file](${process.env.ECRS_URL}/r/${
 								document.id
-							}/dump)\n\n~~~json\n${JSON.stringify(
-								document.body,
-								null,
-								"\t"
-							)}\n~~~\n\n~~~\n${
+								}/dump)\n\n~~~json\n${JSON.stringify(
+									document.body,
+									null,
+									"\t"
+								)}\n~~~\n\n~~~\n${
 								document.stack
-							}\n~~~`; /* eslint-disable-line max-len */
+								}\n~~~`; /* eslint-disable-line max-len */
 							const labels = [];
 
 							/* eslint-disable no-underscore-dangle */
@@ -271,7 +271,7 @@ const start = async () => {
 									`${subject}${labels}` || `ecrs: Crash report ${document.id}`,
 								text: `${JSON.stringify(document.body, null, "\t")}\n\n---\n\n${
 									document.stack
-								}\n`,
+									}\n`,
 								to: process.env.SMTP_TO,
 							});
 						}
