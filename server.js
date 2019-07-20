@@ -259,13 +259,7 @@ const start = async () => {
 							});
 
 							await transporter.sendMail({
-								attachments: [
-									{
-										content: document.dump,
-										contentType: "application/x-dmp",
-										filename: `${product_name}-crash-${document.id}.dmp`,
-									},
-								],
+							
 								from: process.env.SMTP_FROM,
 								subject:
 									`${subject}${labels}` || `ecrs: Crash report ${document.id}`,
