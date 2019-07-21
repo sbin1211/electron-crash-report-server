@@ -6,19 +6,18 @@
 		<div>
 			<a href="/r/{{id}}"><span>#</span>{{id}}</a>
 
-			{{#if body._productName}}
+			{{#if body.app}}
 			<span class="application">
-				<a href="/search?app={{body._productName}}">{{body._productName}}</a>
+				<a href="/search?app={{body.app}}">{{body.app}}</a>
 			</span>
-			{{/if}} {{#if body._version}}
+			{{/if}} {{#if body.ver}}
 			<span class="version">
-				<a href="/search?version={{body._version}}">{{body._version}}</a>
+				<a href="/search?version={{body.ver}}">{{body.ver}}</a>
 			</span>
 			{{/if}} {{#if body.process_type}}
 			<span class="{{body.process_type}}">
 				<a href="/search?process_type={{body.process_type}}"
-					>{{body.process_type}}</a
-				>
+					>{{body.process_type}}</a>
 			</span>
 			{{/if}} {{#if body.platform}}
 			<span class="{{body.platform}}">

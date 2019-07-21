@@ -19,7 +19,7 @@ const { promisify } = require("util");
 const { resolve } = require("path");
 const { tmpdir } = require("os");
 const vision = require("@hapi/vision");
-const { walkStack } = require("minidump");
+const { walkStack } = require("./node-minidump/lib/minidump");
 const migrate = require("./migrate.js");
 
 const DELETE = "DELETE";
@@ -159,7 +159,7 @@ const start = async () => {
 			handler: async request => {
 				if (request.payload) {
 					const report = {
-						body: Object.assign({}, request.payload),
+						body: Object.assign({}, request.payload, { ip: request.info.remoteAddress }),
 						dump: request.payload.upload_file_minidump,
 					};
 
@@ -171,7 +171,13 @@ const start = async () => {
 
 						await writeFileAsync(path, report.dump, "binary");
 
-						report.stack = await walkStackAsync(path);
+						const { platform } = report.body;
+						let symbolPath = resolve(__dirname, 'symbols', 'win32');
+						if (platform === 'darwin') {
+							symbolPath = resolve(__dirname, 'symbols', 'darwin');
+						}
+
+						report.stack = await walkStackAsync(path, [symbolPath]);
 						report.stack = report.stack.toString();
 
 						await unlinkAsync(path);
@@ -187,13 +193,13 @@ const start = async () => {
 							const title = `ecrs: Crash report ${document.id}`;
 							const body = `[Download dump file](${process.env.ECRS_URL}/r/${
 								document.id
-							}/dump)\n\n~~~json\n${JSON.stringify(
-								document.body,
-								null,
-								"\t"
-							)}\n~~~\n\n~~~\n${
+								}/dump)\n\n~~~json\n${JSON.stringify(
+									document.body,
+									null,
+									"\t"
+								)}\n~~~\n\n~~~\n${
 								document.stack
-							}\n~~~`; /* eslint-disable-line max-len */
+								}\n~~~`; /* eslint-disable-line max-len */
 							const labels = [];
 
 							/* eslint-disable no-underscore-dangle */
@@ -259,19 +265,13 @@ const start = async () => {
 							});
 
 							await transporter.sendMail({
-								attachments: [
-									{
-										content: document.dump,
-										contentType: "application/x-dmp",
-										filename: `${product_name}-crash-${document.id}.dmp`,
-									},
-								],
+
 								from: process.env.SMTP_FROM,
 								subject:
 									`${subject}${labels}` || `ecrs: Crash report ${document.id}`,
 								text: `${JSON.stringify(document.body, null, "\t")}\n\n---\n\n${
 									document.stack
-								}\n`,
+									}\n`,
 								to: process.env.SMTP_TO,
 							});
 						}
@@ -504,12 +504,12 @@ const start = async () => {
 
 				if (app) {
 					if (where) where = `${where} and`;
-					where = `${where} body @> '{"_productName": "${app}"}'`;
+					where = `${where} body @> '{"app": "${app}"}'`;
 				}
 
 				if (version) {
 					if (where) where = `${where} and`;
-					where = `${where} body @> '{"_version": "${version}"}'`;
+					where = `${where} body @> '{"ver": "${version}"}'`;
 				}
 
 				if (process_type) {
