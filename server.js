@@ -265,7 +265,6 @@ const start = async () => {
 							});
 
 							await transporter.sendMail({
-
 								from: process.env.SMTP_FROM,
 								subject:
 									`${subject}${labels}` || `ecrs: Crash report ${document.id}`,
